@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>index</title>
+  <meta charset="UTF-8">
+  <style>
+    #sketch canvas {}
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    #penWeight{
+      top: 150px;
+      left: 50px;
+    }
+    #brushWeight{
+      top: 250px;
+      left: 50px;
+    }
+    #cancel{
+      top: 350px;
+      left: 50px;
+    }
+    #p_cntr{
+      position: absolute;
+      top: 450px;
+      left: 50px;
+    }
+    #pallet{
+      background-color: black;
+    }
+    .icons{
+      width: 70px;
+      height: 70px;
+      position: fixed;
+      box-sizing: border-box;
+      display: inline-block;
+      position: absolute;
+      border-radius: 100%;
+      border: 5px solid gray;
+      background-color: gray;
+      cursor: pointer;      
+      z-index: 1;
+    }
+    .icons:hover{
+      background-color: rgba(100,100,100,.5);
+    }
+    .colorVal{
+      display: inline-block;
+      margin: 5px;
+      border-radius: 100%;
+      width: 30px;
+      height: 30px;
+    }
+    #footer{
+      display: block;
+    }
+    #ticker{
+      display: inline-block;
+      font-family: sans-serif;
+      font-size: 64px;
+      color: black;
+    }
+    #button_yes {
+      position: relative;
+      box-shadow: inset 0px 1px 3px 0px #91b8b3;
+      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+      background-color: #768d87;
+      border-radius: 5px;
+      border: 1px solid #566963;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 48px;
+      font-weight: bold;
+      padding: 16px 30px;
+      text-decoration: none;
+      text-shadow: 0px -1px 0px #2b665e;
+    }
+
+    #button_yes:hover {
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
+      background-color: rgb(54, 53, 53);
+    }
+
+    #button_yes:active {
+      position: relative;
+      top: 1px;
+    }
+    #button_no {
+      position: relative;
+      box-shadow: inset 0px 1px 3px 0px #91b8b3;
+      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+      background-color: #768d87;
+      border-radius: 5px;
+      border: 1px solid #566963;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 48px;
+      font-weight: bold;
+      padding: 16px 30px;
+      text-decoration: none;
+      text-shadow: 0px -1px 0px #2b665e;
+    }
+
+    #button_no:hover {
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
+      background-color: rgb(54, 53, 53);
+    }
+
+    #button_no:active {
+      position: relative;
+      top: 1px;
+    }
+
+    #spaceAlert{
+      box-sizing: border-box;
+      position: absolute;
+      border-radius: 100%;
+      border: 5px dotted red;
+      transition: border 2s, width 2s, height 2s, left 2s, top 2s;
+    }
+  </style>
+  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script>
+  <!-- <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.vae.js"></script> --> 
+  <script language="javascript" type="text/javascript" src="p5.min.js"></script>
+  <script language="javascript" type="text/javascript" src="p5.dom.min.js"></script>
+  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/numjs.js"></script>
+  <script language="javascript" type="text/javascript" src="sketch_rnn.js"></script>
+  <!-- <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/sketch_rnn.js"></script> --> 
+</head>
+
+<body style="background-color:white">
+  <div id="sketch"></div>
+  <div id='penWeight' class="icons">펜모드</div>
+  <div id='brushWeight' class="icons">붓모드</div>
+  <div id='cancel' class="icons">취소</div> 
+  <div id='p_cntr'>
+    <div id='pallet' class="icons"></div>
+    <div id='palVal'></div>
+  </div>
+  <div id="footer">
+    <div id ="ticker">그림을 그려주세요!</div>
+    <div id ="button_yes">yes</div>
+    <div id ="button_no">no</div>
+  </div>
+  <div id='spaceAlert' style='display:none'></div>
+</body>
+<script language="javascript" type="text/javascript">
+
+  function shuffle(array) {
+    var currentIndex = array.length,
+      temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  }
+  var sketch = function(p) {
+    "use strict"
+
+    var startingStrokes;
+
+    var use_large_models = true;
+
+    // sketch_rnn model
+    var model_loaded = false;
+    var model;
+    var model_data;
+    var temperature = 0.01;
+    var refresh_count = 1;
+
+    var modelPdf; // store all the parameters of a mixture-density distribution
+    var model_state, model_state_orig;
+    var modelStrokes = []; // keep track of the strokes the model drew
+    var modelPen = Pen();
+    var modelNames = "palm_tree"
+    //simModel variables
+    var min_sequence_length = 5;
+    var modelSim_z;
+    var modelSim_state;
+    var modelSim_x;
+    var modelSim_y;
+    var modelSim_dx;
+    var modelSim_dy;
+    var modelSim_is_active;
+    var modelSim_steps;
+    var modelSim_prev_pen;
+    var origin_x, origin_y;
+    var simModelChanged=false;
+
+    function Pen() {
+      var state = {
+        active: false,
+        x: 0,
+        y: 0,
+        dx: 0,
+        dy: 0,
+        down: 0,
+        up: 0,
+        end: 0,
+        prevDown: 0,
+        prevUp: 0,
+        prevEnd: 0
+      }
+      state.updateCurrent = function(stroke) {
+        state.dx = stroke[0]
+        state.dy = stroke[1]
+        // we update the previous by default
+        state.updateCurrentPen(stroke.slice(2, 5))
+      }
+      state.updatePrev = function(stroke) {
+        state.dx = stroke[0]
+        state.dy = stroke[1]
+        // we update the previous by default
+        state.updatePrevPen(stroke.slice(2, 5))
+      }
+      state.updateCurrentPen = function(array) {
+        state.down = array[0]
+        state.up = array[1]
+        state.end = array[2]
+      }
+      state.updatePrevPen = function(array) {
+        state.prevDown = array[0]
+        state.prevUp = array[1]
+        state.prevEnd = array[2]
+      }
+      state.getStroke = function() {
+        return [state.dx, state.dy, state.down, state.up, state.end]
+      }
+      state.getCurrentPen = function() {
+        return [state.down, state.up, state.end]
+      }
+      state.getPrevPen = function() {
+        return [state.prevDown, state.prevUp, state.prevEnd]
+      }
+      return state;
+    }
+
+    // variables for the sketch input interface.
+    var userPen = {
+      currentState: 0,
+      prevState: 0,
+    }
+    var x, y; // absolute coordinates on the screen of where the pen is
+    var start_x, start_y;
+    var has_started; // set to true after user starts writing.
+    var just_finished_line;
+    var epsilon = 1.0; // to ignore data from user's pen staying in one spot.
+    var raw_line_color; 
+    //var raw_lines;
+    var current_raw_line;
+    // var strokes;
+    var current_strokes;
+    var final_strokes = null;
+    var line_color, predict_line_color;
+    var line_color_alpha = 64;
+    var final_color_alpha = 255;
+    // demo strokes
+    var startingStrokeIndex;
+    var demo_finished = false;
+    var last_time; // for keeping track of drawing speed
+    var smallPause = false;
+    // Strokes for similar image that generated by unconditional VAE 
+    var prevImageStrokes;     
+
+    //UI
+    var screen_width, screen_height, temperature_slider;
+    var line_width = 3;
+    var screen_scale_factor = 3.0;
+    var task = 0; 
+    var taskText = new Array() 
+    
+
+    // dom
+    var reset_button, model_sel, random_model_button;
+    var text_title, text_temperature;
+    var changing_model_lock = true;
+    var restarting_model_lock = false;
+    var restarting_model_lock_count = 0;
+    var restarting_model_lock_frames = 30;
+    var clear_text_color, random_text_color;
+    var clear_text_background, random_text_background;
+    var canvas;
+    var title_text = "sketch-rnn predictor.";
+    var old_title_text = "sketch-rnn";
+    var run_encode_strokes;
+    var ticker;
+    var button_yes;
+
+    var select_dom;
+    // tracking mouse  touchpad
+    var tracking = {
+      down: false,
+      x: 0,
+      y: 0
+    };
+
+    function format_title_text(name) {
+      name = name.split('_').join(' ');
+      var c = name[0];
+
+      /*
+      var a = ' a ';
+      var c = name[0];
+      if (c === 'a' || c === 'e' || c === 'i' || c === 'o' || c === 'u') {
+        a = ' an ';
+      }
+      */
+
+      return 'start drawing ' + name + '.';
+    };
+
+    function set_title_text(new_text) {
+      title_text = new_text.split('_').join(' ');
+      // document.getElementById("loading_text").innerText = title_text;
+    };
+    function set_ticker_text(new_text) {
+      document.getElementById("ticker").innerText = new_text;
+    };
+
+    var draw_example = function(example, start_x, start_y, line_color, prev_pen_override) {
+      console.log('draw_examlple called!');
+
+      var i, j;
+      var x = start_x,
+        y = start_y;
+      var dx, dy;
+      var pen_down, pen_up, pen_end;
+      var prev_pen = [1, 0, 0];
+
+      if (Array.isArray(prev_pen_override)) {
+        penState = prev_pen_override;
+      }
+
+      p.curveTightness(0.5);
+
+      var lines = []; //save all line points
+      var line = []; //save a point array of each line
+      var pt;
+
+      line.push([x, y]);
+        
+      for (i = 0; i < example.length; i++) {
+        // sample the next pen's states from our probability distribution
+        [dx, dy, pen_down, pen_up, pen_end] = example[i];
+
+        if (prev_pen[2] == 1) { // end of drawing.
+          break;
+        }
+
+        x += dx;
+        y += dy;
+
+        // only draw on the paper if the pen is touching the paper
+        if (prev_pen[0] == 1) {
+          line.push([x, y]);
+        } else { //pen_up state
+          lines.push(line);
+          line = [];
+          line.push([x, y]);
+        }
+
+        // update the previous pen's state to the current one we just sampled
+        prev_pen = [pen_down, pen_up, pen_end];
+      }
+      if (line.length > 0) {
+        lines.push(line);
+        //colors, penWeight 와 lines 길이 맞추기
+        while(lines.length>colors.length){
+          //console.log('lines.length',lines.length,'colors.length',colors.length);
+          colors.push(curCol);
+          penWeights.push(curPenWeight);
+        }
+        while(lines.length<colors.length){
+          //console.log('lines.length',lines.length,'colors.length',colors.length);
+          colors.pop(curCol);
+          penWeights.pop(curPenWeight);
+        }
+        if(lines.length===colors.length){
+          raw_lines = raw_lines.slice(0,lines.length);
+          console.log('lines.length',lines.length,'colors.length',colors.length,'penWeights.length',penWeights.length,'strokes.length',strokes.length,'raw_lines.length',raw_lines.length); 
+          line = [];
+        }
+      }
+
+//      p.stroke(line_color);
+//      p.strokeWeight(line_width);
+//      console.log(lines.length, colors.length);
+//      p.noFill();
+      //프레임마다 strokes[]안의 옵젝들 그려주는 부분 
+      for (i = 0; i < lines.length; i++){
+        line = lines[i];
+        if (line.length > 1) {
+          pt = line[0];
+          p.fill(254);
+          // p.stroke('black');
+          p.stroke(colors[i]);
+          p.strokeWeight(penWeights[i]);
+          p.beginShape();
+          p.curveVertex(pt[0], pt[1]);
+          for (j = 0; j < line.length; j++) {
+            pt = line[j];
+            p.curveVertex(pt[0], pt[1]);
+          }
+          p.curveVertex(pt[0], pt[1]);
+          p.endShape();
+        }
+      }
+    };
+
+    var init = function(cb) {
+      ModelImporter.set_init_model(model_raw_data);
+      if (use_large_models) {
+        ModelImporter.set_model_url("https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/");
+      }
+      model_data = ModelImporter.get_model_data();
+      model = new SketchRNN(model_data);
+
+      var initial_model = 'palm_tree';
+
+      ModelImporter.change_model({}, initial_model, "gen", function(new_model) {
+        console.log("changing")
+        model = new_model
+        model.set_pixel_factor(screen_scale_factor);
+        //set_title_text(format_title_text(model.info.name));
+        cb();
+        changing_model_lock = false;
+        set_title_text('draw a shape, any shape.');
+        model_loaded = true;
+      }, true);
+
+      screen_width = get_window_width(); //window.innerWidth
+      screen_height = (get_window_height()-110); //window.innerHeight
+      ticker = document.getElementById("ticker"); 
+      ticker.style.width = screen_width * 0.7 + 'px'; 
+      button_yes = document.getElementById("button_yes"); 
+      taskText = ["그림을 그려주세요","완성하셨나요","돌았냐?"] 
+
+      var canvas = document.getElementsByTagName("canvas")[0];
+      canvas.addEventListener("mousedown", function(e) {
+        devicePressed(e.clientX, e.clientY);
+      })
+      canvas.addEventListener("mousemove", function(e) {
+        if (tracking.down) {
+          devicePressed(e.clientX, e.clientY);
+        }
+      })
+      canvas.addEventListener("mouseup", function(e) {
+        deviceReleased();
+      })
+      canvas.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        devicePressed(e.touches[0].clientX, e.touches[0].clientY);
+      })
+      canvas.addEventListener("touchmove", function(e) {
+        e.preventDefault();
+        if (tracking.down) {
+          devicePressed(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      })
+      canvas.addEventListener("touchend", function(e) {
+        e.preventDefault();
+        deviceReleased();
+      })
+      button_yes.addEventListener("click", function(e){
+        if(task>=0 && task<taskText.length){
+          e.preventDefault();
+          task += 1;
+          console.log(task);
+          console.log(taskText.length)
+          }
+      })
+
+      // cb();
+    }
+
+    var encode_strokes = function(sequence) {
+
+      if (sequence && sequence.length > 0) {
+        console.log("encoding");
+        
+        // encode sequence
+        for (var i = 0; i < sequence.length - 1; i++) {
+          model_state_orig = model.update(sequence[i], model_state_orig);
+        }
+
+        restart_model(sequence);
+
+        modelPen.active = true;
+
+        set_title_text('')
+        console.log("finished encoding");
+      }
+    }
+    
+    function restart_model(sequence) {
+      model_state = model.copy_state(model_state_orig); // bounded
+      modelStrokes = []
+
+      var idx = raw_lines.length-1;
+      var last_point = raw_lines[idx][raw_lines[idx].length-1];
+      var last_x = last_point[0];
+      var last_y = last_point[1];
+      var s = sequence[sequence.length-1];
+
+      modelPen.x = last_x;
+      modelPen.y = last_y;
+      modelPen.updatePrev(s)
+    }
+
+    function init_model_coordinates() {
+      x = screen_width / 2.75;
+      y = screen_height / 2.0;
+      start_x = x;
+      start_y = y;
+
+      modelPen.x = x;
+      modelPen.y = y;
+      modelPen.updatePrevPen([0, 0, 0])
+      modelPen.active = false;
+
+      // demo_finished = false;
+      startingStrokeIndex = 0;
+    }
+
+    function restart() {
+      // reinitialize variables before calling p5.js setup.
+      line_color = p.color(0, 0, 0, line_color_alpha);
+      predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
+
+      // make sure we enforce some minimum size of our demo
+      screen_width = Math.max(window.innerWidth, 400);
+      screen_height = (Math.max(window.innerHeight, 320)-110);
+
+      // variables for the sketch input interface.
+      userPen.currentState = 0
+      userPen.prevState = 1
+      // pen = 0;
+      // prev_pen = 1;
+      has_started = false; // set to true after user starts writing.
+      just_finished_line = false;
+      raw_lines = [];
+      current_raw_line = [];
+      strokes = [];
+      current_strokes = [];
+      modelStrokes = [];
+      //startingStrokes = startingStrokesData[Math.floor(Math.random() * startingStrokesData.length)];
+      // start drawing from somewhere in middle of the canvas
+      init_model_coordinates();
+
+      if (model) {
+        model_state_orig = model.zero_state();
+        model_state_orig = model.update(model.zero_input(), model_state_orig);
+      }
+
+    };
+
+    function clear_screen() {
+      // console.log("CLEAR")
+      p.fill(255);
+      p.noStroke();
+      // p.rect(0, 0, screen_width, screen_height-41);
+      p.rect(0, 0, screen_width, screen_height);
+      p.stroke(0);
+    };
+
+    p.setup = function() {
+      init(function() {
+        console.log('ready.');
+        // draw_random_example();
+      });
+      restart();
+      canvas = p.createCanvas(screen_width, screen_height);
+      p.frameRate(30);
+      clear_screen();
+      last_time = +new Date()
+    }
+
+    function get_window_width() {
+      // return p.windowWidth;
+      return window.innerWidth;
+    }
+
+    function get_window_height() {
+      // return p.windowHeight;
+      return window.innerHeight;
+    }
+
+    p.draw = function() {
+      if(task>=0 && task<taskText.length){
+        set_ticker_text(taskText[task]);
+      }
+      screen_width = get_window_width();
+      screen_height = (get_window_height()-110);
+      //console.log(screen_width,screen_height)
+      if (run_encode_strokes) {
+        run_encode_strokes = false;
+        encode_strokes(current_strokes);
+        current_strokes = [];
+        if (strokes && strokes.length > 0) {
+          var ts = strokes[strokes.length - 1];
+          current_strokes.push([ts[0], ts[1], ts[2], ts[3], ts[4]]);
+        }
+        // set_title_text(format_title_text(model.name));
+      }
+
+      // record pen drawing from user:
+      clear_text_color = "rgba(0,0,0,0.5)"; // #3393d1
+      random_text_color = "rgba(0,0,0,0.5)"; // #3393d1
+      clear_text_background = false;
+      random_text_background = false;
+      // if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
+      if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
+        if (userPen.prevState == 1) {
+          clear_screen();
+          //내가 마우스 누르는동안 이전 오브젝트 그리기
+          draw_example(strokes, start_x, start_y, line_color);
+        }
+        if (has_started == false) { // first time anything is written
+          restarting_model_lock = false;
+
+          restart();
+          strokes = [];
+          clear_screen();
+          has_started = true;
+          demo_finished = true;
+
+          line_color_alpha = final_color_alpha;
+          line_color = p.color(0, 0, 0, line_color_alpha);
+          // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
+          predict_line_color = curCol;
+
+          x = tracking.x;
+          y = tracking.y;
+          start_x = x;
+          start_y = y;
+          userPen.currentState = 0;
+          current_raw_line.push([x, y]);
+        } else {
+          //사용자가 그림 그리는 부분 설정
+          var dx0 = tracking.x - x; // candidate for dx
+          var dy0 = tracking.y - y; // candidate for dy
+          if (dx0 * dx0 + dy0 * dy0 > epsilon * epsilon) { // only if pen is not in same area
+            var dx = dx0;
+            var dy = dy0;
+            userPen.currentState = 0
+
+            if (userPen.prevState == 0) {
+              p.stroke(curCol);
+              p.strokeWeight(curPenWeight); // nice thick line
+              p.line(x, y, x + dx, y + dy); // draw line connecting prev point to current point.
+            }
+
+            // update the absolute coordinates from the offsets
+            x += dx;
+            y += dy;
+
+            // update raw_lines
+            current_raw_line.push([x, y]);
+            just_finished_line = true;
+
+            // using the previous pen states, and hidden state, get next hidden state
+            // update_rnn_state();
+          }
+        }
+      }
+      else { // pen is above the paper
+        userPen.currentState = 1;
+        if (just_finished_line) {
+          //라인좌표를 curveVertex곡선으로 변환
+          var current_raw_line_simple = DataTool.simplify_line(current_raw_line);
+          var idx, last_point, last_x, last_y;
+
+          if (current_raw_line_simple.length > 1) {
+            if (raw_lines.length === 0) {
+              last_x = start_x;
+              last_y = start_y;
+            }
+            else {
+              idx = raw_lines.length - 1;
+              last_point = raw_lines[idx][raw_lines[idx].length - 1];
+              last_x = last_point[0];
+              last_y = last_point[1];
+            }
+            //raw_lines -> strokes 절대좌표를 상대좌표로 변환
+            var stroke = DataTool.line_to_stroke(current_raw_line_simple, [last_x, last_y]);
+            raw_lines.push(current_raw_line_simple);
+            strokes = strokes.concat(stroke);
+            current_strokes = current_strokes.concat(stroke);
+
+            // redraw simplified strokes
+            clear_screen();
+            if(strokes.length) draw_example(strokes, start_x, start_y, line_color);
+
+            old_title_text = title_text;
+            set_title_text("sketch-rnn is working ...");
+
+            // initialize rnn:
+            console.log('initialize rnn');
+            run_encode_strokes = true;
+
+            /*
+            p.stroke(line_color);
+            p.strokeWeight(2.0);
+            p.ellipse(x, y, 5, 5); // draw line connecting prev point to current point.
+            */
+
+          } else {
+            if (raw_lines.length === 0) {
+              has_started = false;
+            }
+          }
+
+          current_raw_line = [];
+          just_finished_line = false;
+        }
+        
+        if(restarting_model_lock) {
+          restarting_model_lock_count -= 1;
+          if (restarting_model_lock_count >= 0) {
+            return;
+          }
+          clear_screen();
+          // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224),line_color_alpha);
+          predict_line_color = curCol;          
+          //sketch rnn이 그림 그리는동안 이전에 내가 그리 오브젝트 표시
+          draw_example(strokes, start_x, start_y, line_color);
+          restarting_model_lock = false;
+        }
+
+        // have machine take over the drawing here:
+        if (modelPen.active && !run_encode_strokes && !isModelDrawn) {
+
+          modelPen.updateCurrentPen(modelPen.getPrevPen())
+
+          model_state = model.update(modelPen.getStroke(), model_state);
+          modelPdf = model.get_pdf(model_state);
+          var s =  model.sample(modelPdf, temperature);
+          modelPen.updateCurrent(s);
+          modelStrokes.push(s);
+
+          if (modelPen.end === 1) {
+            // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
+            clear_screen();
+            //final_strokes = strokes.concat(modelStrokes);
+            console.log('the length of strokes before drawing sketchRNN is', strokes.length);
+            var prevStrokesLength = strokes.length;
+            strokes = strokes.concat(modelStrokes); //strokes에 모델 패스 추가
+            strokes[strokes.length-1][3]=1;
+            strokes[strokes.length-1][4]=0;
+            console.log('the length of strokes after drawing sketchRNN is', strokes.length);
+            var curStrokesLength = strokes.length;
+            //console.log('curStrokesLength - prevStrokesLength',curStrokesLength , prevStrokesLength);
+            extStrokesLength = curStrokesLength - prevStrokesLength;
+            
+            StrokeToRaw();
+
+            //모델 스트로크 추가 후 마지막으로 완성본 그려주는 부분 
+            draw_example(strokes, start_x, start_y, curCol);
+            prevImageStrokes = strokes; 
+            restart_model(strokes);
+            restarting_model_lock = true;
+            restarting_model_lock_count = restarting_model_lock_frames;
+            isModelDrawn = true;
+          } else {
+
+            if (modelPen.prevDown === 1) {
+              //draw line connecting prev point to current point.
+              p.stroke(curCol);
+              p.strokeWeight(curPenWeight);
+              p.line(modelPen.x, modelPen.y, modelPen.x + modelPen.dx, modelPen.y + modelPen.dy);
+            }
+
+            modelPen.updatePrevPen(modelPen.getCurrentPen())
+
+            modelPen.x += modelPen.dx;
+            modelPen.y += modelPen.dy;
+          }
+        }
+  
+      }
+
+      userPen.prevState = userPen.currentState;
+    };
+
+    var deviceReleased = function() {
+      tracking.down = false;
+      // console.log(tracking.down)
+    }
+
+    var devicePressed = function(x, y) {
+      tracking.x = x;
+      tracking.y = y;
+      if (!tracking.down) {
+        tracking.down = true;
+      }
+      // console.log(tracking.down, tracking.x, tracking.y)
+    };
+
+    var initSimilarStrokes = function(sx, sy, sequence){
+      //sx, sy - regular input: start_x, start_y
+      console.log("initSimilarStrokes called")
+      var mu, sigma;
+      if (sequence.length <= min_sequence_length) {
+        return;
+      }
+      // var short_sequence = model.copy_drawing(sequence, model.max_seq_len);
+      var short_sequence = model.copy_drawing(sequence);
+      [mu, sigma] = model.encode_to_mu_sigma(short_sequence);
+      modelSim_z = model.encode_from_mu_sigma(mu, sigma);
+      modelSim_state = model.get_init_state_from_latent_vector(modelSim_z);
+      modelSim_x = sx;
+      modelSim_y = sy;
+      modelSim_dx = 0;
+      modelSim_dy = 0;
+      modelSim_is_active = true;
+      // modelSim_steps = 0;
+      modelSim_prev_pen = [0, 0, 0];
+      console.log("short_sequence",short_sequence);
+      console.log("[mu, sigma]",[mu, sigma]);
+      temperature = 0.01
+    }
+
+    var firstTimeSim=true; //drawSimilarStrokes 첫실행 감지함수
+    var drawSimilarStrokes = function(origin_x, origin_y){  //jungwoo added this function
+      //origin_x, origin_y - drawing starting point
+      console.log("drawSimilarStrokes called")
+      var pdf; // store all the parameters of a mixture-density distribution
+      var m_dx, m_dy, m_x, m_y;
+      var m_pen_down, m_pen_up, m_pen_end;
+      var x0, y0, x1, y1;
+
+      var o_x, o_y;
+
+      // var scale = Nsize;
+      // var fudge = 0;
+
+      if (modelSim_is_active) {
+          console.log("modelSim_is_active: ",modelSim_is_active)
+          // o_x = origin_x+fudge;
+          // o_y = origin_y+fudge;
+          o_x = origin_x;
+          o_y = origin_y;
+          m_x = modelSim_x;
+          m_y = modelSim_y;
+          m_dx = modelSim_dx;
+          m_dy = modelSim_dy;
+          m_pen_down = modelSim_prev_pen[0];
+          m_pen_up = modelSim_prev_pen[1];
+          m_pen_end = modelSim_prev_pen[2];
+          // 여기서 model_prev_pen 업데이트
+          modelSim_state = model.update([m_dx, m_dy, m_pen_down, m_pen_up, m_pen_end], modelSim_state, modelSim_z);
+          // model_steps[i][j] += 1;
+          pdf = model.get_pdf(modelSim_state);
+
+          [m_dx, m_dy, m_pen_down, m_pen_up, m_pen_end] = model.sample(pdf, temperature, 0.5+0.5*temperature);
+
+          // console.log("[m_dx, m_dy, m_pen_down, m_pen_up, m_pen_end]",[m_dx, m_dy, m_pen_down, m_pen_up, m_pen_end])
+          // console.log("modelSim_prev_pen: ",modelSim_prev_pen)//0716문제: modelSim_prev_pen가 계속 [0,0,0]임 -> 원인:modelSim_prev_pen = [0, 0, 0]로 계속 초기화 했었음
+          if (modelSim_prev_pen[0] == 1) {
+            // console.log("modelSim_prev_pen[0] == 1: ",modelSim_prev_pen[0])
+            // draw line connecting prev point to current point.
+            x0 = m_x;
+            y0 = m_y;
+            x1 = (m_x+m_dx);
+            y1 = (m_y+m_dy);
+            // if (inside_box(x0, y0) && inside_box(x1, y1)) {
+              //strokes로 저장되는 값과 미세하게 오프셋
+              p.stroke(raw_line_color = curCol);
+              p.strokeWeight(line_width = curPenWeight);
+              p.line(o_x+x0, o_y+y0, o_x+x1, o_y+y1);
+            // }
+            // save path data into strokes
+            if(firstTimeSim){
+              var last_point = raw_lines[raw_lines.length-1][raw_lines[raw_lines.length-1].length-1];
+              strokes.pop();
+              strokes.push([m_x-last_point[0], m_y-last_point[1], m_pen_down, m_pen_up, m_pen_end]);
+              firstTimeSim=false;
+            }
+          }
+
+          modelSim_dx = m_dx;
+          modelSim_dy = m_dy;
+          modelSim_prev_pen = [m_pen_down, m_pen_up, m_pen_end];
+          modelSim_x += m_dx;
+          modelSim_y += m_dy;
+
+          // save path data into strokes
+          strokes.push([m_dx, m_dy, m_pen_down, m_pen_up, m_pen_end]);
+          //draw_example(strokes, start_x , start_y, curCol);
+
+          if (m_pen_end === 1) {
+            console.log('eeeeeeeeeeeend');
+            modelSim_is_active = false;
+            simModelChanged = false;
+            strokes[strokes.length-1][3] = 1;
+            strokes[strokes.length-1][4] = 0;
+            StrokeToRaw();
+            draw_example(strokes, start_x , start_y, curCol);
+          }
+        }
+        console.log("drawSimilarStrokes done")
+    }
+
+
+//-----------------------sungwoo added below here-------------------
+    //strokes를 역으로 raw_lines에 추가
+    function StrokeToRaw(){
+      //raw_lines의 총 개수 계산
+      var raw_lines_cnt = 0;
+      for(var j=0; j<raw_lines.length; j++){
+        raw_lines_cnt += raw_lines[j].length;
+      }
+      console.log('raw_lines_cnt', raw_lines_cnt);   
+      
+      var idx = raw_lines_cnt - 1;   
+
+      while(true){
+        var arr = [];
+        var last_point = raw_lines[raw_lines.length-1][raw_lines[raw_lines.length-1].length-1];
+        //pen_up까지의 하나의 오브젝트를 arr에 담음
+        while(true){
+          idx++;
+          if(arr.length) arr.push([arr[arr.length-1][0]+strokes[idx][0], arr[arr.length-1][1]+strokes[idx][1]]);
+          else arr.push([last_point[0]+strokes[idx][0], last_point[1]+strokes[idx][1]]);
+
+          if(strokes[idx][3]==1) break;                
+        }
+        raw_lines.push(arr);
+        if(idx==strokes.length-1) break;
+      }
+
+    }
+
+    function checkArea(){
+      //계산 너무 많으면 mul*mul 픽셀당 계산
+      var occupied = 0;
+      var mul = 60; //한 격자당 가로세로 픽셀 개수 셋팅
+      p.noStroke();
+      for(var i=0; i<screen_width; i+=mul){
+        for(var j=0; j<screen_height; j+=mul){
+          console.log('i= ',i,' j= ',j);
+          var k = p.get(i+mul/2, j+mul/2);
+          if(k[0]!=255 || k[1]!=255 || k[2]!=255){
+            occupied++;
+            p.fill(255,0,0,100); //alpha 0~255 (255 is exactly solid color)
+            p.rect(i,j,mul,mul);
+          }
+          else{
+            p.fill(0,0,0,100);
+            p.rect(i,j,mul,mul);
+          }
+        }
+      }
+      var pct = occupied*mul*mul/(screen_width*screen_height)*100;
+      pct = Math.floor(pct, 1);
+      console.log('all', screen_width*screen_height, 'px, occupied', occupied*mul*mul, 'px, percent', pct,'%');
+    }
+
+    function checkAreaByArray(){
+      p.loadPixels();
+      //console.log(pixels); // debug
+      var d = p.pixelDensity(); // maybe 1~2, 레티나 디스플레이 보정
+      var idx=0;
+      var mul = 1;
+      var occupied = 0;
+
+      for(var i=0; i<screen_height; i++){
+        for(var j=0; j<screen_width; j++){
+          idx = j*4*d + i*screen_width*4*d*d;
+          var r = p.pixels[idx];
+          var g = p.pixels[idx+1];
+          var b = p.pixels[idx+2];
+          //console.log(idx);
+          if(r!=255 || g!=255 || b!=255){
+            occupied++;
+          }
+        }
+      }
+      var pct = occupied/(screen_width*screen_height)*100;
+      pct = Math.round(pct);
+      console.log('pixel density is ',d);
+      console.log('all', screen_width*screen_height, 'px, occupied', occupied, 'px, percent', pct,'%');
+    }
+    
+    function checkWhiteSpace(){
+      //안보이는 외곽선 만들기
+      p.stroke(254,254,254,255);
+      p.line(0,0,0,screen_height);
+      p.line(0,0,screen_width,0);
+      p.line(0,screen_height,screen_width,screen_height);
+      p.line(screen_width,0,screen_width,screen_height);
+      //특정 좌표에서 그림과 간섭없는 가장 큰 원 그리기
+      var x=0, y=0; //중심좌표
+      var x2, y2_p, y2_n //검색할 좌표
+      var r=1 //거리, 원의 반지름
+      var del_r = 10; //몇픽셀 단위로 측정할지 
+      var del_x = 1; //몇픽셀 단위로 x좌표 이동할지, 증가시 캔버스 외곽선 통가할 가능성있음
+      var del_xy = 50; //몇픽셀 단위로 측정점 설정할지
+      var isStopped = false;
+      var isTouched = false;
+      //x^2 + y^2 = r^2 -> y = +- sqrt(r^2-x^2)
+      p.loadPixels();
+      var pxl = p.pixels;
+      //console.log(pixels); // debug
+      var d = p.pixelDensity(); // maybe 1~2, 레티나 디스플레이 보정
+      var search_limit;
+      var res=[]; //결과저장 list
+      
+      search_limit = Math.sqrt(screen_width*screen_width + screen_height*screen_height);
+      for(var i=1; i<screen_height/del_xy; i++){
+      for(var j=1; j<screen_width/del_xy; j++){
+        isStopped = false;
+        x = j*del_xy;
+        y = i*del_xy;
+
+//        p.noStroke();
+//        p.fill(254,0,0,100); //alpha 0~255 (255 is exactly solid color)
+//        p.rect(x,y,5,5);
+        
+        //최대거리용 원 셋업
+        p.noFill();
+        p.stroke(0,0,255,100);
+        p.strokeWeight(1);
+      
+        for(r=0; r<search_limit; r+=del_r){ //계산부하 줄이려면 del_r 높임
+          if(isStopped) break;
+          isTouched = false;
+          
+          for(x2=x+r; x2>=x-r; x2-=del_x){ //계산부하 줄이려면 x2증분 높임
+            if(isTouched) break;
+            y2_p = y + Math.round(Math.sqrt(r*r-(x2-x)*(x2-x)));
+            y2_n = y - Math.round(Math.sqrt(r*r-(x2-x)*(x2-x)));
+            //캔버스 바깥범위는 탐색 안하도록. 최적화
+            //p5 메소드 콜시에 시간오래 걸림. 중복반복문에선 안쓰는게 좋음 
+            
+            if(x2<0 || x2>screen_width) continue;
+            else if(y2_p>screen_height) checkCoordinate(x2, y2_n);
+            else if(y2_n<0) checkCoordinate(x2, y2_p);
+            else{
+              checkCoordinate(x2, y2_p);
+              checkCoordinate(x2, y2_n);
+            }
+          }
+        }
+      }
+      }
+      
+      res.sort(function(a,b){return a.r<b.r ? 1 : a.r>b.r ? -1 : 0;});
+      for(var i=0; i<1; i++){
+//        p.noFill();
+//        p.stroke(0,0,255,100);
+//        p.ellipse(res[i].x, res[i].y, res[i].r*2, res[i].r*2);
+//        p.noStroke();
+//        p.fill(255,0,0,100); //alpha 0~255 (255 is exactly solid color)
+//        p.rect(res[i].x,res[i].y,5,5);
+//        console.log(res[i].i,res[i].j, res[i].r);
+        makeSpaceAlert(res[i].x,res[i].y,res[i].r);
+      }
+      
+      //y2_n, y2_p 구분해서 입력하면 최소 접촉좌표 x2, y2 및 거리 r 계산하는 내부함수
+      function checkCoordinate(x2, y2){
+        //체크점 표시
+//        p.rect(x2,y2,1,1);
+        //y2 search
+        var idx = x2*4*d + y2*screen_width*4*d*d; //좌표 -> 배열인덱스 매핑
+        var red = pxl[idx];
+        var g = pxl[idx+1];
+        var b = pxl[idx+2];
+        var a = pxl[idx+3];
+        if((red!=255 || g!=255 || b!=255)&&a==255){
+//        if(a=255){
+//          p.ellipse(x,y,r*2,r*2);
+//          console.log('stop searching at i=',i, 'j=',j,'\n rgb=', red, g, b, '\n r=', r,'x=', x2, 'y=', y2);
+          res.push({
+            i:i,
+            j:j,
+            r:r,
+            x:x,
+            y:y,
+            x2:x2,
+            y2:y2
+          });
+          isStopped = true;
+          isTouched = true;
+        }
+      }
+    }
+ 
+    p.keyPressed = function(){
+      if(p.keyCode===32){ //space
+        checkWhiteSpace();
+            checkAreaByArray();
+  //          checkArea();
+      }
+      else if(p.keyCode===p.ENTER){
+        console.log('ENTER PRESSED...save canvas to jpg file');
+        p.saveCanvas(p.canvas,"canvasImage","png"); //save image
+      }
+      else if(p.keyCode===48){ //'0'
+        console.log('previouse isModelDrawn is',isModelDrawn);
+        console.log('previouse strokesLength is',strokes.length);
+        strokes = strokes.slice(0,-1*extStrokesLength);
+        clear_screen();
+        draw_example(strokes, start_x , start_y, line_color);
+        restart_model(strokes);
+        isModelDrawn = false;
+        console.log('isModelDrawn changed to',isModelDrawn);
+        console.log('strokesLength changed to',strokes.length);
+      }
+      else if(p.keyCode===57){ //'9'
+        ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
+          console.log("changing")
+          model = new_model
+          model.set_pixel_factor(screen_scale_factor);
+          //set_title_text(format_title_text(model.info.name));
+          // cb();
+          changing_model_lock = false;
+          set_title_text('draw a shape, any shape.');
+          model_loaded = true;
+          simModelChanged = true;
+        }, true);
+      }
+      else if(p.keyCode===56){//'8'
+        console.log("prevImageStrokes: ",prevImageStrokes);
+        console.log("simModelChanged: ",simModelChanged);
+        console.log("start_x: ",start_x);
+        console.log("start_y: ",start_y);
+        if(simModelChanged==true) {
+          // initSimilarStrokes(start_x, start_y, prevImageStrokes);
+          initSimilarStrokes(300, 300, prevImageStrokes);
+          while(simModelChanged==true) {
+            drawSimilarStrokes(0, 0)
+          }
+          // 다시 'gen'으로 모델 체인지
+          ModelImporter.change_model({}, modelNames, "gen", function(new_model) {
+          console.log("changing")
+          model = new_model
+          model.set_pixel_factor(screen_scale_factor);
+          //set_title_text(format_title_text(model.info.name));
+          // cb();
+          changing_model_lock = false;
+          set_title_text('draw a shape, any shape.');
+          model_loaded = true;
+          // simModelChanged = true;
+        }, true);          
+        }
+      }
+    }
+    
+    p.mousePressed = function(){
+      new_start_x = p.mouseX;
+      new_start_y = p.mouseY;
+      var px = p.get(new_start_x, new_start_y);
+      console.log(new_start_x, new_start_y, px);
+    }
+    
+    //아이콘클릭 효과
+    document.getElementById('penWeight').addEventListener('click', function(e){
+      //e.target.style.backgroundColor = 'gray';
+      curPenWeight = 3;
+      console.log('curPenWeight', curPenWeight);
+    });
+    document.getElementById('brushWeight').addEventListener('click', function(e){
+      //e.target.style.backgroundColor = 'gray';
+      curPenWeight = 15;
+      console.log('curPenWeight', curPenWeight);
+    });
+    document.getElementById('cancel').addEventListener('click', cancelClick);
+    
+    function cancelClick(){
+      colors.pop();
+      penWeights.pop();
+      //raw_lines에는 절대좌표 기록, strokes에는 상대 좌표 거리 기록
+      //sketchRNN은 strokes만 만들고 raw_line은 안만듦
+      if(raw_lines.length) raw_lines.pop();
+      while(true){
+        if(strokes) strokes.pop();
+        if(strokes.length==0 || strokes[strokes.length-1][3]==1) break;
+      }
+      clear_screen();
+      if(colors.length==0){ //오브젝트 하나도 없으면 재시작
+        has_started = false;
+        return;
+      }
+      draw_example(strokes, start_x , start_y, line_color);
+    }
+  }
+    var custom_p5 = new p5(sketch, 'sketch');
+
+  var new_start_x, new_start_y;
+  var curPenWeight = 3;
+  var colors = []; //save all colors of each line
+  var penWeights = [];
+  var isModelDrawn = false;
+  var strokes;
+  var raw_lines;
+  var extStrokesLength;
+
+  //---------------------팔레트 아이콘
+  var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
+  var palVal = document.getElementById('palVal'); //팔레트 확장영역 돔
+  var p_wdt = 70, p_hgt = 70; //팔레트 아이콘 크기
+  //pallet css 설정
+  pallet.style.width = p_wdt+'px';
+  pallet.style.height = p_hgt+'px';
+  //palVal css 설정
+  palVal.style.display ='none';
+  palVal.style.boxSizing = 'border-box';
+  palVal.style.width = '150px';
+  palVal.style.height = '200px';
+  palVal.style.borderRadius = '20px';
+  palVal.style.border = '5px solid gray';
+  palVal.style.backgroundColor = 'rgba(100,100,100,.5)'
+  palVal.style.position = 'absolute';
+  palVal.style.left = p_wdt/2+'px';
+  palVal.style.top = p_hgt/2+'px';
+  palVal.style.padding = '20px 10px';
+  palVal.style.zIndex = 0;
+
+  var colorArr = ['black', 'green', 'blue', 'pink', 'yellow', 'purple', 'cyan', 'orange', 'red'];
+  var curCol = 'black'; //현재 선택된컬러
+  colorArr.forEach(function(item, i){
+    var colVal = document.createElement('div');
+    palVal.appendChild(colVal);
+    colVal.setAttribute('class', 'colorVal'); // 공통 css적용
+    colVal.style.backgroundColor = item;
+    //컬러 선택시 변하는 부분 이벤트
+    colVal.addEventListener('click', function(e){
+      curCol = e.target.style.backgroundColor;
+      console.log(curCol);
+      pallet.style.backgroundColor = curCol;
+    });
+  });
+
+  var p_cntr = document.getElementById('p_cntr');
+  p_cntr.addEventListener('mouseover', function(){
+    palVal.style.display ='initial';
+  });
+  p_cntr.addEventListener('mouseout', function(){
+    palVal.style.display ='none';
+  });
+  
+  //빈공간 알려주는 돔 생성
+  function makeSpaceAlert(x,y,r){
+    var mapVal = .6; //r의 몇배크기 원 만들지
+    var wdt = r*mapVal*2;
+    var hgt = r*mapVal*2;
+    var circle = document.getElementById('spaceAlert');
+    circle.style.left = x+'px';
+    circle.style.top = y+'px';
+    circle.style.display = 'initial';
+    circle.style.width = '0px';
+    circle.style.height = '0px';
+    circle.style.border = '5px dotted red';
+    setTimeout(function(){
+      circle.style.border = '5px dotted transparent';
+      circle.style.width = wdt+'px';
+      circle.style.height = hgt+'px'; 
+      circle.style.left = x-wdt/2+'px';
+      circle.style.top = y-hgt/2+'px';
+    }, 10);
+    setTimeout(function(){
+      circle.style.display = 'none';
+    }, 2000);
+  }
+
+</script>
+
+</html>

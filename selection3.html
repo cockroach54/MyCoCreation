@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>selection3</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    #container {
+      background-color: rgb(77, 76, 76);
+      text-align: center;
+      /*vertical-align: middle;
+      display: table-cell;*/
+    }
+
+    #title {
+      /*display: inline-block;*/
+      position: relative;
+      font-family: sans-serif;
+      font-size: 64px;
+      color: white;
+    }
+
+    #description {
+      /*display: inline-block;*/
+      position: relative;
+      font-family: sans-serif;
+      font-size: 32px;
+      color: white;
+    }
+
+    .myButton {
+      position: relative;
+      box-shadow: inset 0px 1px 3px 0px #91b8b3;
+      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+      background-color: #768d87;
+      border-radius: 5px;
+      border: 1px solid #566963;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 32px;
+      font-weight: bold;
+      padding: 16px 30px;
+      text-decoration: none;
+      text-shadow: 0px -1px 0px #2b665e;
+    }
+
+    .myButton:hover {
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
+      background-color: rgb(54, 53, 53);
+    }
+
+    .myButton:active {
+      position: relative;
+      top: 1px;
+    }
+
+    #backButton {
+      position: relative;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div id="title">Co-Creation!</div>
+    <div id="description">수다쟁이 AI가 좋은가요? 조용한 AI가 좋은가요?</div>
+    <div class="myButton" , id="myButton_1">Talkative</div>
+    <div class="myButton" , id="myButton_2">Silent</div>
+    <button class="w3-button w3-xlarge w3-circle w3-black" , id="backButton"><-</button>
+  </div>
+</body>
+<script language="javascript" type="text/javascript">
+  var screen_width = get_window_width();
+  var screen_height = get_window_height();
+
+  var container = document.getElementById('container'); //container DOM
+  var title = document.getElementById('title'); //title DOM
+  var description = document.getElementById('description'); //description DOM
+  var myButton1 = document.getElementById('myButton_1'); //myButton1 DOM
+  var myButton2 = document.getElementById('myButton_2'); //myButton2 DOM
+  var backButton = document.getElementById('backButton'); //backButton DOM
+  container.style.width = screen_width + 'px';
+  container.style.height = screen_height + 'px';
+  title.style.top = screen_height / 5 + 'px';
+  description.style.top = screen_height / 3.5 + 'px';
+  myButton1.style.top = (screen_height / 2) * 1 + 'px';
+  myButton2.style.top = (screen_height / 2) * 1 + 'px';
+  backButton.style.top = (screen_height / 2) + 'px';
+  backButton.style.left = (screen_width - 200) + 'px';
+
+  function get_window_width() {
+    // return p.windowWidth;
+    return window.innerWidth;
+  }
+
+  function get_window_height() {
+    // return p.windowHeight;
+    return window.innerHeight;
+  }
+</script>
+
+</html>
