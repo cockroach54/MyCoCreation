@@ -54,16 +54,39 @@
       width: 30px;
       height: 30px;
     }
-    #footer{
+    #header{
       display: block;
+      background-color: rgba(0,0,0,0.8);
+      /*height: 110px;*/
     }
-    #ticker{
+    #title{
+      position: relative;
       display: inline-block;
       font-family: sans-serif;
-      font-size: 64px;
-      color: black;
+      /*font-size: 80px;*/
+      font-size: 40px;
+      color: white;
+      font-weight: bold;
+      /*left: 50px;*/
+      left: 25px;
     }
-    #button_yes {
+    #footer{
+      display: block;
+      background-color: rgba(0,0,0,0.8);
+      /*height: 110px;*/
+    }
+    #ticker{
+      position: relative;
+      display: inline-block;
+      font-family: sans-serif;
+      /*font-size: 64px;*/
+      font-size: 32px;
+      color: white;
+      text-align: center;
+      /*left: 50px;*/
+      left: 25px;
+    }
+    .buttons {
       position: relative;
       box-shadow: inset 0px 1px 3px 0px #91b8b3;
       background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
@@ -74,14 +97,16 @@
       cursor: pointer;
       color: #ffffff;
       font-family: Arial;
-      font-size: 48px;
+      /*font-size: 48px;*/
+      font-size: 24px;
       font-weight: bold;
-      padding: 16px 30px;
+      /*padding: 16px 30px;*/
+      padding: 8px 15px;
       text-decoration: none;
       text-shadow: 0px -1px 0px #2b665e;
     }
 
-    #button_yes:hover {
+    .buttons:hover {
       background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
       background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
       background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
@@ -92,40 +117,7 @@
       background-color: rgb(54, 53, 53);
     }
 
-    #button_yes:active {
-      position: relative;
-      top: 1px;
-    }
-    #button_no {
-      position: relative;
-      box-shadow: inset 0px 1px 3px 0px #91b8b3;
-      background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
-      background-color: #768d87;
-      border-radius: 5px;
-      border: 1px solid #566963;
-      display: inline-block;
-      cursor: pointer;
-      color: #ffffff;
-      font-family: Arial;
-      font-size: 48px;
-      font-weight: bold;
-      padding: 16px 30px;
-      text-decoration: none;
-      text-shadow: 0px -1px 0px #2b665e;
-    }
-
-    #button_no:hover {
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
-      background-color: rgb(54, 53, 53);
-    }
-
-    #button_no:active {
+    .buttons:active {
       position: relative;
       top: 1px;
     }
@@ -137,31 +129,49 @@
       border: 5px dotted red;
       transition: border 2s, width 2s, height 2s, left 2s, top 2s;
     }
+
+    #cover{
+      position: fixed;
+      display: none;
+      top: 0px;
+      left: 0px;
+      width: 1366px;
+      height: 1024px;
+      z-index: 999;
+      background-color: rgba(255,100,100,.2);
+      /*background: url('imgsrc/loading.gif') top left no-repeat;*/
+      background: url('imgsrc/loading.gif') center center no-repeat;
+    }
   </style>
-  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script>
-  <!-- <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.vae.js"></script> --> 
+  <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script> 
   <script language="javascript" type="text/javascript" src="p5.min.js"></script>
   <script language="javascript" type="text/javascript" src="p5.dom.min.js"></script>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/numjs.js"></script>
-  <script language="javascript" type="text/javascript" src="sketch_rnn.js"></script>
-  <!-- <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/lib/sketch_rnn.js"></script> --> 
+  <script language="javascript" type="text/javascript" src="sketch_rnn.js"></script> 
 </head>
 
 <body style="background-color:white">
+  <div id="header">
+    <div id ="title">Co-Creation!</div>
+    <div id ="button_sel1" class = "buttons">Help</div>
+    <div id ="button_sel2" class = "buttons">Landscape</div>
+    <div id ="button_sel3" class = "buttons">Talkative</div>
+  </div>
   <div id="sketch"></div>
-  <div id='penWeight' class="icons">펜모드</div>
+  <div id="penWeight" class="icons">펜모드</div>
   <div id='brushWeight' class="icons">붓모드</div>
-  <div id='cancel' class="icons">취소</div> 
+  <div id='cancel' class="icons">취소</div>
   <div id='p_cntr'>
     <div id='pallet' class="icons"></div>
     <div id='palVal'></div>
   </div>
   <div id="footer">
     <div id ="ticker">그림을 그려주세요!</div>
-    <div id ="button_yes">yes</div>
-    <div id ="button_no">no</div>
+    <div id ="button_yes" class = "buttons">yes</div>
+    <div id ="button_no" class = "buttons">no</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
+  <div id='cover' style='display:none'></div>
 </body>
 <script language="javascript" type="text/javascript">
 
@@ -298,7 +308,7 @@
     var screen_scale_factor = 3.0;
     var task = 0; 
     var taskText = new Array() 
-    
+    var ticker_showed = 0
 
     // dom
     var reset_button, model_sel, random_model_button;
@@ -315,7 +325,11 @@
     var run_encode_strokes;
     var ticker;
     var button_yes;
-
+    var title;
+    var header;
+    var footer;
+    var headerHeight=55;
+    var footerHeight=55;
     var select_dom;
     // tracking mouse  touchpad
     var tracking = {
@@ -458,12 +472,20 @@
         model_loaded = true;
       }, true);
 
+      header = document.getElementById("header");
+      header.style.height = headerHeight;
+      footer = document.getElementById("footer");
+      footer.style.height = footerHeight;
       screen_width = get_window_width(); //window.innerWidth
-      screen_height = (get_window_height()-110); //window.innerHeight
-      ticker = document.getElementById("ticker"); 
-      ticker.style.width = screen_width * 0.7 + 'px'; 
-      button_yes = document.getElementById("button_yes"); 
-      taskText = ["그림을 그려주세요","완성하셨나요","돌았냐?"] 
+      screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 -> -220
+      title = document.getElementById("title");
+      // title.style.width = screen_width * 0.7 + 'px';
+      title.style.width = screen_width * 0.7 + 'px';
+      ticker = document.getElementById("ticker");
+      // ticker.style.width = screen_width * 0.87 + 'px';
+      ticker.style.width = screen_width * 0.87 + 'px';
+      button_yes = document.getElementById("button_yes");
+      taskText = ["그림을 그려주세요","완성하셨나요","돌았냐?"];
 
       var canvas = document.getElementsByTagName("canvas")[0];
       canvas.addEventListener("mousedown", function(e) {
@@ -559,7 +581,7 @@
 
       // make sure we enforce some minimum size of our demo
       screen_width = Math.max(window.innerWidth, 400);
-      screen_height = (Math.max(window.innerHeight, 320)-110);
+      screen_height = (Math.max(window.innerHeight, 320)-(headerHeight+footerHeight));
 
       // variables for the sketch input interface.
       userPen.currentState = 0
@@ -618,9 +640,10 @@
     p.draw = function() {
       if(task>=0 && task<taskText.length){
         set_ticker_text(taskText[task]);
+        ticker_showed = 1;
       }
       screen_width = get_window_width();
-      screen_height = (get_window_height()-110);
+      screen_height = (get_window_height()-(headerHeight+footerHeight));
       //console.log(screen_width,screen_height)
       if (run_encode_strokes) {
         run_encode_strokes = false;
@@ -728,12 +751,6 @@
             console.log('initialize rnn');
             run_encode_strokes = true;
 
-            /*
-            p.stroke(line_color);
-            p.strokeWeight(2.0);
-            p.ellipse(x, y, 5, 5); // draw line connecting prev point to current point.
-            */
-
           } else {
             if (raw_lines.length === 0) {
               has_started = false;
@@ -752,10 +769,19 @@
           clear_screen();
           // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224),line_color_alpha);
           predict_line_color = curCol;          
-          //sketch rnn이 그림 그리는동안 이전에 내가 그리 오브젝트 표시
+          //sketch rnn이 그림 그리는동안 이전 strokes 오브젝트 캔버스에 표시
           draw_example(strokes, start_x, start_y, line_color);
           restarting_model_lock = false;
         }
+
+        //vae 모델 그리기
+        if(simModelChanged==true){
+          if(!isSimDrawn){
+            initSimilarStrokes(300, 300, prevImageStrokes);
+            isSimDrawn = true;
+          }
+          drawSimilarStrokes(0, 0);
+        }    
 
         // have machine take over the drawing here:
         if (modelPen.active && !run_encode_strokes && !isModelDrawn) {
@@ -791,6 +817,7 @@
             restarting_model_lock = true;
             restarting_model_lock_count = restarting_model_lock_frames;
             isModelDrawn = true;
+
           } else {
 
             if (modelPen.prevDown === 1) {
@@ -819,7 +846,7 @@
 
     var devicePressed = function(x, y) {
       tracking.x = x;
-      tracking.y = y;
+      tracking.y = y - headerHeight;
       if (!tracking.down) {
         tracking.down = true;
       }
@@ -853,7 +880,7 @@
     var firstTimeSim=true; //drawSimilarStrokes 첫실행 감지함수
     var drawSimilarStrokes = function(origin_x, origin_y){  //jungwoo added this function
       //origin_x, origin_y - drawing starting point
-      console.log("drawSimilarStrokes called")
+      //console.log("drawSimilarStrokes called")
       var pdf; // store all the parameters of a mixture-density distribution
       var m_dx, m_dy, m_x, m_y;
       var m_pen_down, m_pen_up, m_pen_end;
@@ -865,7 +892,7 @@
       // var fudge = 0;
 
       if (modelSim_is_active) {
-          console.log("modelSim_is_active: ",modelSim_is_active)
+          //console.log("modelSim_is_active: ",modelSim_is_active)
           // o_x = origin_x+fudge;
           // o_y = origin_y+fudge;
           o_x = origin_x;
@@ -926,9 +953,24 @@
             strokes[strokes.length-1][4] = 0;
             StrokeToRaw();
             draw_example(strokes, start_x , start_y, curCol);
+
+            // 다시 'gen'으로 모델 체인지
+            toggleCover();
+            ModelImporter.change_model({}, modelNames, "gen", function(new_model) {
+              console.log("changing")
+              model = new_model
+              model.set_pixel_factor(screen_scale_factor);
+              //set_title_text(format_title_text(model.info.name));
+              // cb();
+              changing_model_lock = false;
+              set_title_text('draw a shape, any shape.');
+              model_loaded = true;
+              // simModelChanged = true;
+              toggleCover();
+            }, true);  
           }
         }
-        console.log("drawSimilarStrokes done")
+        //console.log("drawSimilarStrokes done")
     }
 
 
@@ -1138,6 +1180,7 @@
         console.log('strokesLength changed to',strokes.length);
       }
       else if(p.keyCode===57){ //'9'
+        toggleCover();
         ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
           console.log("changing")
           model = new_model
@@ -1148,6 +1191,7 @@
           set_title_text('draw a shape, any shape.');
           model_loaded = true;
           simModelChanged = true;
+          toggleCover();
         }, true);
       }
       else if(p.keyCode===56){//'8'
@@ -1155,26 +1199,20 @@
         console.log("simModelChanged: ",simModelChanged);
         console.log("start_x: ",start_x);
         console.log("start_y: ",start_y);
-        if(simModelChanged==true) {
-          // initSimilarStrokes(start_x, start_y, prevImageStrokes);
-          initSimilarStrokes(300, 300, prevImageStrokes);
-          while(simModelChanged==true) {
-            drawSimilarStrokes(0, 0)
-          }
-          // 다시 'gen'으로 모델 체인지
-          ModelImporter.change_model({}, modelNames, "gen", function(new_model) {
-          console.log("changing")
-          model = new_model
-          model.set_pixel_factor(screen_scale_factor);
-          //set_title_text(format_title_text(model.info.name));
-          // cb();
-          changing_model_lock = false;
-          set_title_text('draw a shape, any shape.');
-          model_loaded = true;
-          // simModelChanged = true;
-        }, true);          
-        }
       }
+
+      else if(p.keyCode===49){//'1' for test
+        console.log('cococococo');
+        toggleCover();
+      }
+    }
+
+    //로딩창 띄우고 없애기
+    function toggleCover(){
+      //모델체인지할때 브라우저 자체가 멈추는듯... gif 안돌아감...
+      var cover = document.getElementById('cover');
+      if(cover.style.display == 'none') cover.style.display = 'initial';
+      else cover.style.display ='none';
     }
     
     p.mousePressed = function(){
@@ -1222,6 +1260,7 @@
   var colors = []; //save all colors of each line
   var penWeights = [];
   var isModelDrawn = false;
+  var isSimDrawn = false;
   var strokes;
   var raw_lines;
   var extStrokesLength;
