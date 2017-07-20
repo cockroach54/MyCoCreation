@@ -163,7 +163,7 @@
   <div id='cancel' class="icons">취소</div>
   <div id='p_cntr'>
     <div id='pallet' class="icons"></div>
-    <div id='palVal'></div>
+    <div id='palVal' style='display:none'></div>
   </div>
   <div id="footer">
     <div id ="ticker">그림을 그려주세요!</div>
@@ -1301,12 +1301,20 @@
     });
   });
 
-  var p_cntr = document.getElementById('p_cntr');
-  p_cntr.addEventListener('mouseover', function(){
-    palVal.style.display ='initial';
-  });
-  p_cntr.addEventListener('mouseout', function(){
-    palVal.style.display ='none';
+  // var p_cntr = document.getElementById('p_cntr');
+  // pc버전 인터페이스
+  // p_cntr.addEventListener('mouseover', function(){
+  //   palVal.style.display ='initial';
+  // });
+  // p_cntr.addEventListener('mouseout', function(){
+  //   palVal.style.display ='none';
+  // });
+  //아이패드 버전 인터페이스
+  pallet.addEventListener('click', function(){
+    if(palVal.style.display == 'none'){
+      palVal.style.display ='initial';
+    }
+    else palVal.style.display ='none';
   });
   
   //빈공간 알려주는 돔 생성
