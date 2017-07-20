@@ -1,0 +1,97 @@
+<head>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.8/p5.js"></script>
+    <script language="javascript" type="text/javascript" src="sketch.js"></script>
+    <style>
+        body{
+            border:1px dotted red;
+            padding: 0;
+            margin: 0;
+        }
+        #cntr{
+            border:1px dotted red;
+            position: absolute;
+            left: 50px;
+            top: 50px;
+        }
+        #p5_loading{
+            width: 500px;
+            height: 500px;
+            z-index: 999;
+            background-image: url(load.gif);
+        }
+      #p_cntr{
+        position: fixed;
+        top: 200px;
+        left: 100px;
+      }
+      #pallet{
+        box-sizing: border-box;
+        display: inline-block;
+        position: absolute;
+        border-radius: 100%;
+        border: 5px solid gray;
+        background-color: black;
+        z-index: 1;
+      }
+      .colorVal{
+        display: inline-block;
+        margin: 5px;
+        border-radius: 100%;
+        width: 30px;
+        height: 30px;
+      }
+    </style>
+</head>
+<body>
+    <div id="p5_loading" class="loadingclass">this could be some sweet graphics loading lots of bits.</div>
+    <div id="cntr"></div>
+  <div id='p_cntr'>
+    <div id='pallet'></div>
+    <div id='palVal'></div>
+  </div>
+  
+  <script>
+    var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
+    var palVal = document.getElementById('palVal'); //팔레트 확장영역 돔
+    var p_wdt = 70, p_hgt = 70; //팔레트 아이콘 크기
+    //pallet css 설정
+    pallet.style.width = p_wdt+'px';
+    pallet.style.height = p_hgt+'px';
+    //palVal css 설정
+    palVal.style.display ='none';
+    palVal.style.boxSizing = 'border-box';
+    palVal.style.width = '150px';
+    palVal.style.height = '200px';
+    palVal.style.borderRadius = '20px';
+    palVal.style.border = '5px solid gray';
+    palVal.style.position = 'absolute';
+    palVal.style.left = p_wdt/2+'px';
+    palVal.style.top = p_hgt/2+'px';
+    palVal.style.padding = '20px 10px';
+    palVal.style.zIndex = 0;
+    
+    var colorArr = ['red', 'green', 'blue', 'pink', 'yellow', 'purple', 'black', 'orange', 'cyan'];
+    var curCol = 'black'; //현재 선택된컬러
+    colorArr.forEach(function(item, i){
+      var colVal = document.createElement('div');
+      palVal.appendChild(colVal);
+      colVal.setAttribute('class', 'colorVal'); // 공통 css적용
+      colVal.style.backgroundColor = item;
+      //컬러 선택시 변하는 부분 이벤트 
+      colVal.addEventListener('click', function(e){
+        curCol = e.target.style.backgroundColor;
+        console.log(curCol);
+        pallet.style.backgroundColor = curCol;
+      });
+    });
+    
+    var p_cntr = document.getElementById('p_cntr');
+    p_cntr.addEventListener('mouseover', function(){
+      palVal.style.display ='initial';
+      
+    });
+    p_cntr.addEventListener('mouseout', function(){
+      palVal.style.display ='none';
+    });
+  </script>
+</body>

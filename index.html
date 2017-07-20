@@ -81,10 +81,14 @@
       font-family: sans-serif;
       /*font-size: 64px;*/
       font-size: 32px;
-      color: white;
+      color: yellow;
       text-align: center;
       /*left: 50px;*/
       left: 25px;
+    }
+    #button_cntr{
+      position: relative;
+      display: none;
     }
     .buttons {
       position: relative;
@@ -167,12 +171,16 @@
   </div>
   <div id="footer">
     <div id ="ticker">그림을 그려주세요!</div>
-    <div id ="button_yes" class = "buttons">yes</div>
-    <div id ="button_no" class = "buttons">no</div>
+    <div id="button_cntr">
+      <div id ="button_yes" class = "buttons">yes</div>
+      <div id ="button_no" class = "buttons">no</div>
+    </div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='cover' style='display:none'></div>
 </body>
+
+<script type="text/javascript" src="drawMode.js"></script>
 <script language="javascript" type="text/javascript">
 
   function shuffle(array) {
@@ -306,9 +314,6 @@
     var screen_width, screen_height, temperature_slider;
     var line_width = 3;
     var screen_scale_factor = 3.0;
-    var task = 0; 
-    var taskText = new Array() 
-    var ticker_showed = 0
 
     // dom
     var reset_button, model_sel, random_model_button;
@@ -316,7 +321,7 @@
     var changing_model_lock = true;
     var restarting_model_lock = false;
     var restarting_model_lock_count = 0;
-    var restarting_model_lock_frames = 30;
+    var restarting_model_lock_frames = 60;
     var clear_text_color, random_text_color;
     var clear_text_background, random_text_background;
     var canvas;
@@ -324,7 +329,6 @@
     var old_title_text = "sketch-rnn";
     var run_encode_strokes;
     var ticker;
-    var button_yes;
     var title;
     var header;
     var footer;
@@ -370,6 +374,9 @@
       var dx, dy;
       var pen_down, pen_up, pen_end;
       var prev_pen = [1, 0, 0];
+
+      //draw ClipArt
+      if(drawClipArt) p.image(img, 100, 100, 400, 200);
 
       if (Array.isArray(prev_pen_override)) {
         penState = prev_pen_override;
@@ -479,13 +486,9 @@
       screen_width = get_window_width(); //window.innerWidth
       screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 -> -220
       title = document.getElementById("title");
-      // title.style.width = screen_width * 0.7 + 'px';
       title.style.width = screen_width * 0.7 + 'px';
       ticker = document.getElementById("ticker");
-      // ticker.style.width = screen_width * 0.87 + 'px';
       ticker.style.width = screen_width * 0.87 + 'px';
-      button_yes = document.getElementById("button_yes");
-      taskText = ["그림을 그려주세요","완성하셨나요","돌았냐?"];
 
       var canvas = document.getElementsByTagName("canvas")[0];
       canvas.addEventListener("mousedown", function(e) {
@@ -512,14 +515,6 @@
       canvas.addEventListener("touchend", function(e) {
         e.preventDefault();
         deviceReleased();
-      })
-      button_yes.addEventListener("click", function(e){
-        if(task>=0 && task<taskText.length){
-          e.preventDefault();
-          task += 1;
-          console.log(task);
-          console.log(taskText.length)
-          }
       })
 
       // cb();
@@ -622,7 +617,7 @@
       });
       restart();
       canvas = p.createCanvas(screen_width, screen_height);
-      p.frameRate(30);
+      p.frameRate(60);
       clear_screen();
       last_time = +new Date()
     }
@@ -638,10 +633,34 @@
     }
 
     p.draw = function() {
-      if(task>=0 && task<taskText.length){
-        set_ticker_text(taskText[task]);
-        ticker_showed = 1;
+      //ticker show here
+      if(task>=0 && task<taskText[drawMode].length){
+        set_ticker_text(taskText[drawMode][task]);
       }
+      if(task == 11 && !isTimeCntStart){
+        isTimeCntStart = true;
+        console.log('------settimeout start------');
+        mySetTime = setTimeout(function() {
+          console.log('------settimeout operate------');
+          task++; //task12
+          setTimeout(function() {
+            task++; //task13
+            button_cntr.style.display = 'inline-block';
+            button_no.style.display = 'inline-block';
+            button_yes.innerText = 'yes'; 
+            checkWhiteSpace();
+            checkAreaByArray();
+          }, 2000);
+        }, 5000);
+      }
+      if(task==14 && !isTimeCntStart){
+        isTimeCntStart = true;
+        console.log('------settimeout start------');
+        mySetTime = setTimeout(function() {
+          task++; //task15
+        }, 5000);
+      }
+
       screen_width = get_window_width();
       screen_height = (get_window_height()-(headerHeight+footerHeight));
       //console.log(screen_width,screen_height)
@@ -677,10 +696,11 @@
           has_started = true;
           demo_finished = true;
 
-          line_color_alpha = final_color_alpha;
-          line_color = p.color(0, 0, 0, line_color_alpha);
+          // line_color_alpha = final_color_alpha;
+          // line_color = p.color(0, 0, 0, line_color_alpha);
           // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
           predict_line_color = curCol;
+          if(task===0) task++; //task0에서만 작동
 
           x = tracking.x;
           y = tracking.y;
@@ -701,6 +721,12 @@
               p.stroke(curCol);
               p.strokeWeight(curPenWeight); // nice thick line
               p.line(x, y, x + dx, y + dy); // draw line connecting prev point to current point.
+              //task12 시간설정부분
+              if(isTimeCntStart){
+                console.log('------settimeout clear------');
+                clearTimeout(mySetTime);
+                isTimeCntStart = false;
+              }
             }
 
             // update the absolute coordinates from the offsets
@@ -716,9 +742,16 @@
           }
         }
       }
+
       else { // pen is above the paper
         userPen.currentState = 1;
         if (just_finished_line) {
+          //
+          if(task==1){
+            task++;
+            button_cntr.style.display = 'inline-block';
+          }
+
           //라인좌표를 curveVertex곡선으로 변환
           var current_raw_line_simple = DataTool.simplify_line(current_raw_line);
           var idx, last_point, last_x, last_y;
@@ -777,7 +810,8 @@
         //vae 모델 그리기
         if(simModelChanged==true){
           if(!isSimDrawn){
-            initSimilarStrokes(300, 300, prevImageStrokes);
+            initSimilarStrokes(300, 300, strokes);
+            // initSimilarStrokes(300, 300, prevImageStrokes);
             isSimDrawn = true;
           }
           drawSimilarStrokes(0, 0);
@@ -792,7 +826,7 @@
           modelPdf = model.get_pdf(model_state);
           var s =  model.sample(modelPdf, temperature);
           modelPen.updateCurrent(s);
-          modelStrokes.push(s);
+          modelStrokes.push(s);0
 
           if (modelPen.end === 1) {
             // predict_line_color = p.color(p.random(64, 224), p.random(64, 224), p.random(64, 224), line_color_alpha);
@@ -818,6 +852,7 @@
             restarting_model_lock_count = restarting_model_lock_frames;
             isModelDrawn = true;
 
+            task = 3;
           } else {
 
             if (modelPen.prevDown === 1) {
@@ -967,6 +1002,10 @@
               model_loaded = true;
               // simModelChanged = true;
               toggleCover();
+              //task control
+              task++;
+              button_no.style.display = 'none';
+              button_yes.innerText = 'OK';
             }, true);  
           }
         }
@@ -1161,7 +1200,7 @@
     p.keyPressed = function(){
       if(p.keyCode===32){ //space
         checkWhiteSpace();
-            checkAreaByArray();
+        checkAreaByArray();
   //          checkArea();
       }
       else if(p.keyCode===p.ENTER){
@@ -1169,15 +1208,15 @@
         p.saveCanvas(p.canvas,"canvasImage","png"); //save image
       }
       else if(p.keyCode===48){ //'0'
-        console.log('previouse isModelDrawn is',isModelDrawn);
-        console.log('previouse strokesLength is',strokes.length);
-        strokes = strokes.slice(0,-1*extStrokesLength);
-        clear_screen();
-        draw_example(strokes, start_x , start_y, line_color);
-        restart_model(strokes);
-        isModelDrawn = false;
-        console.log('isModelDrawn changed to',isModelDrawn);
-        console.log('strokesLength changed to',strokes.length);
+          console.log('previouse isModelDrawn is',isModelDrawn);
+          console.log('previouse strokesLength is',strokes.length);
+          strokes = strokes.slice(0,-1*extStrokesLength);
+          clear_screen();
+          draw_example(strokes, start_x , start_y, line_color);
+          restart_model(strokes);
+          isModelDrawn = false;
+          console.log('isModelDrawn changed to',isModelDrawn);
+          console.log('strokesLength changed to',strokes.length);
       }
       else if(p.keyCode===57){ //'9'
         toggleCover();
@@ -1252,18 +1291,161 @@
       }
       draw_example(strokes, start_x , start_y, line_color);
     }
+
+    //---------------------task event--------------------------
+    //dom
+    var button_cntr = document.getElementById('button_cntr');
+    var button_yes = document.getElementById("button_yes");
+    var button_no = document.getElementById("button_no");
+
+    // task event control
+    button_yes.addEventListener("click", function(e){
+      if(task>=0 && task<taskText[drawMode].length){
+        e.preventDefault();
+        console.log('button_YES just clicked, task:',task);
+
+        if(task==2){ //나머지는 내가 그려볼게요
+          run_encode_strokes = false;
+          isModelDrawn = false;
+        }
+
+        else if(task==3){ //헤헤, 맘에 드시나요?
+          task = 5;
+        }
+
+        else if(task==5){ //또 다른 야자나무를 하나 더 그려볼게요!
+          toggleCover();
+          ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
+            console.log("changing")
+            model = new_model
+            model.set_pixel_factor(screen_scale_factor);
+            changing_model_lock = false;
+            set_title_text('draw a shape, any shape.');
+            model_loaded = true;
+            simModelChanged = true;
+            toggleCover();
+          }, true);
+        }
+
+        else if(task==6){ //헤헤, 맘에 드시나요?
+          task++;
+          button_no.style.display = 'inline-block';
+          button_yes.innerText = 'yes';
+        }
+
+        else if(task==7){ //야자나무와 어울리는 코코넛을 그려볼게요!
+          drawClipArt = true;
+          img = p.loadImage("imgsrc/coconut1.png", function(img) {
+            p.image(img, 100, 100, 400, 200);
+            task++;
+            //이미지 서서히 스와잎하게 효과넣기
+          });
+        }
+
+        else if(task==8){
+          task += 3;  //task 11
+          button_cntr.style.display = 'none';    
+        }
+
+        else if(task==9){
+          drawClipArt = true;
+          img = p.loadImage("imgsrc/coconut2.png", function(img) {
+            p.image(img, 100, 100, 400, 200);
+            task--; //task 8
+            //이미지 서서히 스와잎하게 효과넣기
+            button_no.style.display = 'inline-block';
+            button_yes.innerText = 'yes';   
+          });
+        }
+
+        else if(task==10){
+          drawClipArt = true;
+          img = p.loadImage("imgsrc/coconut3.png", function(img) {
+            p.image(img, 100, 100, 400, 200);
+            task++; //task 11
+            button_cntr.style.display = 'none';
+          });
+        }
+
+        else if(task==13){
+          task++; //task14
+          isTimeCntStart = false;
+          button_no.style.display = 'none';
+          button_yes.innerText = 'OK';           
+        }
+
+        else if(task==15){
+          console.log('ENTER PRESSED...save canvas to jpg file');
+          p.saveCanvas(p.canvas,"canvasImage","png"); //save image
+        }
+
+      }
+    });
+
+    button_no.addEventListener("click", function(e){
+      e.preventDefault();
+      console.log('button_NO just clicked, task:',task);
+ 
+      if(task==3){ //헤헤, 맘에 드시나요? //sketchRNN
+        task++;
+        console.log('previouse isModelDrawn is',isModelDrawn);
+        console.log('previouse strokesLength is',strokes.length);
+        strokes = strokes.slice(0,-1*extStrokesLength);
+        clear_screen();
+        draw_example(strokes, start_x , start_y, line_color);
+        restart_model(strokes);
+        isModelDrawn = false;
+        console.log('isModelDrawn changed to',isModelDrawn);
+        console.log('strokesLength changed to',strokes.length);
+      }
+
+      else if(task==5){
+        task += 2; //task 7
+      }
+
+      else if(task==7 || task==9){ //야자나무와 어울리는 코코넛을 그려볼게요!
+        task = 11;
+        button_cntr.style.display = 'none';
+      }   
+
+      else if(task==8){ //헤헤, 맘에 드시나요? //ClipArt
+        if(isFinalImg) task+=2; //task10
+        else{
+          task++; //task9
+          isFinalImg = true;
+        }
+        drawClipArt = false;
+        button_no.style.display = 'none';
+        button_yes.innerText = 'OK';        
+        clear_screen();
+        draw_example(strokes, start_x, start_y, curCol);
+      }
+
+      else if(task==13){
+        task+=2; //task15
+        button_no.style.display = 'none';
+        button_yes.innerText = 'OK'; 
+      }
+    
+    });
+
   }
-    var custom_p5 = new p5(sketch, 'sketch');
+  var custom_p5 = new p5(sketch, 'sketch');
 
   var new_start_x, new_start_y;
   var curPenWeight = 3;
   var colors = []; //save all colors of each line
   var penWeights = [];
-  var isModelDrawn = false;
+  var isModelDrawn = true;
   var isSimDrawn = false;
   var strokes;
   var raw_lines;
   var extStrokesLength;
+  var drawClipArt = false;
+  var img;
+  var isFinalImg = false;
+  var isTimeCntStart = false;
+  var mySetTime;
 
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
