@@ -23,8 +23,10 @@ co-creation 'draw with AI' scenario
   if //draw prev strokes during sketchRNN operation
   
   if{ //make&draw sketchRNN model here
+  
    if //after drawing model end, stroke to raw()
    else //draw m,odel line here
+   
   }
  
  }
