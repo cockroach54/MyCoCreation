@@ -15,7 +15,7 @@
       top: 80px;
       left: 25px;
       background: url("imgsrc/Penicon.png") center center no-repeat;
-      background-size: 50px 7px;
+      background-size: 15px 50px;
     }
     #brushWeight{
       top: 175px;
@@ -103,45 +103,41 @@
       float: right;
       display: none;
     }
-    .buttons {
+    .buttons{
       position: relative;
       margin: 11px 10px 11px 0px;
-      /*box-shadow: 1px 1px 1px rgb(100,100,100);*/
-      /*background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);*/
       background-color: rgb(100,100,100);
-      border-radius: 30px;;
-      /*border: 1px solid #566963;*/
+      border-radius: 30px;
       display: block;
       cursor: pointer;
       color: #ffffff;
       font-family: Arial;
-      /*font-size: 48px;*/
       font-size: 20px;
       font-weight: bold;
-      /*padding: 16px 30px;*/
       padding: 5px 15px;
       text-decoration: none;
       vertical-align: top;
       float: right;
     }
 
-    /*.buttons:hover {
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
-      background: -moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: -ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
-      background: linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87', GradientType=0);
-      background-color: rgb(54, 53, 53);
-    }*/
-
     .buttons:active {
       position: relative;
       top: 1px;
       background-color: gray;
     }
-
+    .hashtag{
+      position: relative;
+      margin: 11px 10px 11px 0px;
+      display: block;
+      color: #ffffff;
+      font-family: Arial;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 5px 15px;
+      text-decoration: none;
+      /*vertical-align: top;*/
+      float: right;
+    }
     #spaceAlert{
       box-sizing: border-box;
       position: absolute;
@@ -162,6 +158,24 @@
       background-color: rgba(0,0,0,.5);
       background-size: 300px 300px; 
     }
+    #twinkle{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 980px;
+      height: 689px;
+      z-index: 999;
+      background: url('imgsrc/Penicon_red.png') center center no-repeat;
+      /*background-color: rgba(0,0,0,.5);*/
+      background-size: 45px 150px; 
+    }
+    #colorchart{
+      width: 120px;
+      height: 150px;
+      border-collapse: collapse;
+      cursor: pointer;
+    }
+
   </style>
   <script language="javascript" type="text/javascript" src="https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/bird.gen.js"></script> 
   <script language="javascript" type="text/javascript" src="p5.min.js"></script>
@@ -173,9 +187,9 @@
 <body style="background-color:white">
   <div id="header">
     <div id ="title">Co-Creation!</div>
-    <div id ="button_sel3" class = "buttons">Talkative</div>
-    <div id ="button_sel2" class = "buttons">Landscape</div>
-    <div id ="button_sel1" class = "buttons">Help</div>
+    <div id ="button_sel3" class = "hashtag">#Talkative</div>
+    <div id ="button_sel2" class = "hashtag">#Landscape</div>
+    <div id ="button_sel1" class = "hashtag">#Help</div>
   </div>
   <div id="sketch"></div>
   <div id="penWeight" class="icons"></div>
@@ -183,9 +197,26 @@
   <div id='cancel' class="icons"></div>
   <div id='p_cntr'>
     <div id='pallet' class="icons"></div>
-    <div id='palVal' style='display:none'></div>
+    <div id='palVal' style='display:none'>
+      <table id="colorchart"><tr><td bgColor="#FBEFEF"></td><td bgColor="#FBF2EF"></td><td bgColor="#FBF5EF"></td><td bgColor="#FBF8EF"></td><td bgColor="#FBFBEF"></td><td bgColor="#F8FBEF"></td><td bgColor="#F5FBEF"></td><td bgColor="#F2FBEF"></td><td bgColor="#EFFBEF"></td><td bgColor="#EFFBF2"></td><td bgColor="#EFFBF5"></td><td bgColor="#EFFBF8"></td><td bgColor="#EFFBFB"></td><td bgColor="#EFF8FB"></td><td bgColor="#EFF5FB"></td><td bgColor="#EFF2FB"></td><td bgColor="#EFEFFB"></td><td bgColor="#F2EFFB"></td><td bgColor="#F5EFFB"></td><td bgColor="#F8EFFB"></td><td bgColor="#FBEFFB"></td><td bgColor="#FBEFF8"></td><td bgColor="#FBEFF5"></td><td bgColor="#FBEFF2"></td><td bgColor="#FFFFFF"></td></tr>
+ <tr><td bgColor="#F8E0E0"></td><td bgColor="#F8E6E0"></td><td bgColor="#F8ECE0"></td><td bgColor="#F7F2E0"></td><td bgColor="#F7F8E0"></td><td bgColor="#F1F8E0"></td><td bgColor="#ECF8E0"></td><td bgColor="#E6F8E0"></td><td bgColor="#E0F8E0"></td><td bgColor="#E0F8E6"></td><td bgColor="#E0F8EC"></td><td bgColor="#E0F8F1"></td><td bgColor="#E0F8F7"></td><td bgColor="#E0F2F7"></td><td bgColor="#E0ECF8"></td><td bgColor="#E0E6F8"></td><td bgColor="#E0E0F8"></td><td bgColor="#E6E0F8"></td><td bgColor="#ECE0F8"></td><td bgColor="#F2E0F7"></td><td bgColor="#F8E0F7"></td><td bgColor="#F8E0F1"></td><td bgColor="#F8E0EC"></td><td bgColor="#F8E0E6"></td><td bgColor="#FAFAFA"></td></tr>
+ <tr><td bgColor="#F6CECE"></td><td bgColor="#F6D8CE"></td><td bgColor="#F6E3CE"></td><td bgColor="#F5ECCE"></td><td bgColor="#F5F6CE"></td><td bgColor="#ECF6CE"></td><td bgColor="#E3F6CE"></td><td bgColor="#D8F6CE"></td><td bgColor="#CEF6CE"></td><td bgColor="#CEF6D8"></td><td bgColor="#CEF6E3"></td><td bgColor="#CEF6EC"></td><td bgColor="#CEF6F5"></td><td bgColor="#CEECF5"></td><td bgColor="#CEE3F6"></td><td bgColor="#CED8F6"></td><td bgColor="#CECEF6"></td><td bgColor="#D8CEF6"></td><td bgColor="#E3CEF6"></td><td bgColor="#ECCEF5"></td><td bgColor="#F6CEF5"></td><td bgColor="#F6CEEC"></td><td bgColor="#F6CEE3"></td><td bgColor="#F6CED8"></td><td bgColor="#F2F2F2"></td></tr>
+ <tr><td bgColor="#F5A9A9"></td><td bgColor="#F5BCA9"></td><td bgColor="#F5D0A9"></td><td bgColor="#F3E2A9"></td><td bgColor="#F2F5A9"></td><td bgColor="#E1F5A9"></td><td bgColor="#D0F5A9"></td><td bgColor="#BCF5A9"></td><td bgColor="#A9F5A9"></td><td bgColor="#A9F5BC"></td><td bgColor="#A9F5D0"></td><td bgColor="#A9F5E1"></td><td bgColor="#A9F5F2"></td><td bgColor="#A9E2F3"></td><td bgColor="#A9D0F5"></td><td bgColor="#A9BCF5"></td><td bgColor="#A9A9F5"></td><td bgColor="#BCA9F5"></td><td bgColor="#D0A9F5"></td><td bgColor="#E2A9F3"></td><td bgColor="#F5A9F2"></td><td bgColor="#F5A9E1"></td><td bgColor="#F5A9D0"></td><td bgColor="#F5A9BC"></td><td bgColor="#E6E6E6"></td></tr>
+ <tr><td bgColor="#F78181"></td><td bgColor="#F79F81"></td><td bgColor="#F7BE81"></td><td bgColor="#F5DA81"></td><td bgColor="#F3F781"></td><td bgColor="#D8F781"></td><td bgColor="#BEF781"></td><td bgColor="#9FF781"></td><td bgColor="#81F781"></td><td bgColor="#81F79F"></td><td bgColor="#81F7BE"></td><td bgColor="#81F7D8"></td><td bgColor="#81F7F3"></td><td bgColor="#81DAF5"></td><td bgColor="#81BEF7"></td><td bgColor="#819FF7"></td><td bgColor="#8181F7"></td><td bgColor="#9F81F7"></td><td bgColor="#BE81F7"></td><td bgColor="#DA81F5"></td><td bgColor="#F781F3"></td><td bgColor="#F781D8"></td><td bgColor="#F781BE"></td><td bgColor="#F7819F"></td><td bgColor="#D8D8D8"></td></tr>
+ <tr><td bgColor="#FA5858"></td><td bgColor="#FA8258"></td><td bgColor="#FAAC58"></td><td bgColor="#F7D358"></td><td bgColor="#F4FA58"></td><td bgColor="#D0FA58"></td><td bgColor="#ACFA58"></td><td bgColor="#82FA58"></td><td bgColor="#58FA58"></td><td bgColor="#58FA82"></td><td bgColor="#58FAAC"></td><td bgColor="#58FAD0"></td><td bgColor="#58FAF4"></td><td bgColor="#58D3F7"></td><td bgColor="#58ACFA"></td><td bgColor="#5882FA"></td><td bgColor="#5858FA"></td><td bgColor="#8258FA"></td><td bgColor="#AC58FA"></td><td bgColor="#D358F7"></td><td bgColor="#FA58F4"></td><td bgColor="#FA58D0"></td><td bgColor="#FA58AC"></td><td bgColor="#FA5882"></td><td bgColor="#BDBDBD"></td></tr>
+ <tr><td bgColor="#FE2E2E"></td><td bgColor="#FE642E"></td><td bgColor="#FE9A2E"></td><td bgColor="#FACC2E"></td><td bgColor="#F7FE2E"></td><td bgColor="#C8FE2E"></td><td bgColor="#9AFE2E"></td><td bgColor="#64FE2E"></td><td bgColor="#2EFE2E"></td><td bgColor="#2EFE64"></td><td bgColor="#2EFE9A"></td><td bgColor="#2EFEC8"></td><td bgColor="#2EFEF7"></td><td bgColor="#2ECCFA"></td><td bgColor="#2E9AFE"></td><td bgColor="#2E64FE"></td><td bgColor="#2E2EFE"></td><td bgColor="#642EFE"></td><td bgColor="#9A2EFE"></td><td bgColor="#CC2EFA"></td><td bgColor="#FE2EF7"></td><td bgColor="#FE2EC8"></td><td bgColor="#FE2E9A"></td><td bgColor="#FE2E64"></td><td bgColor="#A4A4A4"></td></tr>
+ <tr><td bgColor="#FF0000"></td><td bgColor="#FF4000"></td><td bgColor="#FF8000"></td><td bgColor="#FFBF00"></td><td bgColor="#FFFF00"></td><td bgColor="#BFFF00"></td><td bgColor="#80FF00"></td><td bgColor="#40FF00"></td><td bgColor="#00FF00"></td><td bgColor="#00FF40"></td><td bgColor="#00FF80"></td><td bgColor="#00FFBF"></td><td bgColor="#00FFFF"></td><td bgColor="#00BFFF"></td><td bgColor="#0080FF"></td><td bgColor="#0040FF"></td><td bgColor="#0000FF"></td><td bgColor="#4000FF"></td><td bgColor="#8000FF"></td><td bgColor="#BF00FF"></td><td bgColor="#FF00FF"></td><td bgColor="#FF00BF"></td><td bgColor="#FF0080"></td><td bgColor="#FF0040"></td><td bgColor="#848484"></td></tr>
+ <tr><td bgColor="#DF0101"></td><td bgColor="#DF3A01"></td><td bgColor="#DF7401"></td><td bgColor="#DBA901"></td><td bgColor="#D7DF01"></td><td bgColor="#A5DF00"></td><td bgColor="#74DF00"></td><td bgColor="#3ADF00"></td><td bgColor="#01DF01"></td><td bgColor="#01DF3A"></td><td bgColor="#01DF74"></td><td bgColor="#01DFA5"></td><td bgColor="#01DFD7"></td><td bgColor="#01A9DB"></td><td bgColor="#0174DF"></td><td bgColor="#013ADF"></td><td bgColor="#0101DF"></td><td bgColor="#3A01DF"></td><td bgColor="#7401DF"></td><td bgColor="#A901DB"></td><td bgColor="#DF01D7"></td><td bgColor="#DF01A5"></td><td bgColor="#DF0174"></td><td bgColor="#DF013A"></td><td bgColor="#6E6E6E"></td></tr>
+ <tr><td bgColor="#B40404"></td><td bgColor="#B43104"></td><td bgColor="#B45F04"></td><td bgColor="#B18904"></td><td bgColor="#AEB404"></td><td bgColor="#86B404"></td><td bgColor="#5FB404"></td><td bgColor="#31B404"></td><td bgColor="#04B404"></td><td bgColor="#04B431"></td><td bgColor="#04B45F"></td><td bgColor="#04B486"></td><td bgColor="#04B4AE"></td><td bgColor="#0489B1"></td><td bgColor="#045FB4"></td><td bgColor="#0431B4"></td><td bgColor="#0404B4"></td><td bgColor="#3104B4"></td><td bgColor="#5F04B4"></td><td bgColor="#8904B1"></td><td bgColor="#B404AE"></td><td bgColor="#B40486"></td><td bgColor="#B4045F"></td><td bgColor="#B40431"></td><td bgColor="#585858"></td></tr>
+ <tr><td bgColor="#8A0808"></td><td bgColor="#8A2908"></td><td bgColor="#8A4B08"></td><td bgColor="#886A08"></td><td bgColor="#868A08"></td><td bgColor="#688A08"></td><td bgColor="#4B8A08"></td><td bgColor="#298A08"></td><td bgColor="#088A08"></td><td bgColor="#088A29"></td><td bgColor="#088A4B"></td><td bgColor="#088A68"></td><td bgColor="#088A85"></td><td bgColor="#086A87"></td><td bgColor="#084B8A"></td><td bgColor="#08298A"></td><td bgColor="#08088A"></td><td bgColor="#29088A"></td><td bgColor="#4B088A"></td><td bgColor="#6A0888"></td><td bgColor="#8A0886"></td><td bgColor="#8A0868"></td><td bgColor="#8A084B"></td><td bgColor="#8A0829"></td><td bgColor="#424242"></td></tr>
+ <tr><td bgColor="#610B0B"></td><td bgColor="#61210B"></td><td bgColor="#61380B"></td><td bgColor="#5F4C0B"></td><td bgColor="#5E610B"></td><td bgColor="#4B610B"></td><td bgColor="#38610B"></td><td bgColor="#21610B"></td><td bgColor="#0B610B"></td><td bgColor="#0B6121"></td><td bgColor="#0B6138"></td><td bgColor="#0B614B"></td><td bgColor="#0B615E"></td><td bgColor="#0B4C5F"></td><td bgColor="#0B3861"></td><td bgColor="#0B2161"></td><td bgColor="#0B0B61"></td><td bgColor="#210B61"></td><td bgColor="#380B61"></td><td bgColor="#4C0B5F"></td><td bgColor="#610B5E"></td><td bgColor="#610B4B"></td><td bgColor="#610B38"></td><td bgColor="#610B21"></td><td bgColor="#2E2E2E"></td></tr>
+ <tr><td bgColor="#3B0B0B"></td><td bgColor="#3B170B"></td><td bgColor="#3B240B"></td><td bgColor="#3A2F0B"></td><td bgColor="#393B0B"></td><td bgColor="#2E3B0B"></td><td bgColor="#243B0B"></td><td bgColor="#173B0B"></td><td bgColor="#0B3B0B"></td><td bgColor="#0B3B17"></td><td bgColor="#0B3B24"></td><td bgColor="#0B3B2E"></td><td bgColor="#0B3B39"></td><td bgColor="#0B2F3A"></td><td bgColor="#0B243B"></td><td bgColor="#0B173B"></td><td bgColor="#0B0B3B"></td><td bgColor="#170B3B"></td><td bgColor="#240B3B"></td><td bgColor="#2F0B3A"></td><td bgColor="#3B0B39"></td><td bgColor="#3B0B2E"></td><td bgColor="#3B0B24"></td><td bgColor="#3B0B17"></td><td bgColor="#1C1C1C"></td></tr>
+ <tr><td bgColor="#2A0A0A"></td><td bgColor="#2A120A"></td><td bgColor="#2A1B0A"></td><td bgColor="#29220A"></td><td bgColor="#292A0A"></td><td bgColor="#222A0A"></td><td bgColor="#1B2A0A"></td><td bgColor="#122A0A"></td><td bgColor="#0A2A0A"></td><td bgColor="#0A2A12"></td><td bgColor="#0A2A1B"></td><td bgColor="#0A2A22"></td><td bgColor="#0A2A29"></td><td bgColor="#0A2229"></td><td bgColor="#0A1B2A"></td><td bgColor="#0A122A"></td><td bgColor="#0A0A2A"></td><td bgColor="#120A2A"></td><td bgColor="#1B0A2A"></td><td bgColor="#220A29"></td><td bgColor="#2A0A29"></td><td bgColor="#2A0A22"></td><td bgColor="#2A0A1B"></td><td bgColor="#2A0A12"></td><td bgColor="#151515"></td></tr>
+ <tr><td bgColor="#190707"></td><td bgColor="#190B07"></td><td bgColor="#191007"></td><td bgColor="#181407"></td><td bgColor="#181907"></td><td bgColor="#141907"></td><td bgColor="#101907"></td><td bgColor="#0B1907"></td><td bgColor="#071907"></td><td bgColor="#07190B"></td><td bgColor="#071910"></td><td bgColor="#071914"></td><td bgColor="#071918"></td><td bgColor="#071418"></td><td bgColor="#071019"></td><td bgColor="#070B19"></td><td bgColor="#070719"></td><td bgColor="#0B0719"></td><td bgColor="#100719"></td><td bgColor="#140718"></td><td bgColor="#190718"></td><td bgColor="#190714"></td><td bgColor="#190710"></td><td bgColor="#19070B"></td><td bgColor="#000000"></td></tr>
+</table>
+    </div>
   </div>
-  <div id="footer">
+  <div id="footer">
     <div id="button_cntr">
       <div id ="button_no" class = "buttons">no</div>
       <div id ="button_yes" class = "buttons">yes</div>
@@ -194,6 +225,10 @@
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='cover' style='display:none'></div>
+  <div id='twinkle' style='display:none'></div>
+  <!--<div id="settings">
+    {{ settings }}
+  </div>-->
 </body>
 
 <script type="text/javascript" src="drawMode.js"></script>
@@ -236,10 +271,7 @@
     var model_state, model_state_orig;
     var modelStrokes = []; // keep track of the strokes the model drew
     var modelPen = Pen();
-    var modelNames;
-    if(drawMode==0) modelNames = 'palm_tree';
-    else if(drawMode==1) modelNames = 'strawberry';
-    else if(drawMode==2) modelNames = 'eye';
+    // var modelNames;
 
     //simModel variables
     var min_sequence_length = 5;
@@ -402,7 +434,7 @@
       var prev_pen = [1, 0, 0];
 
       //draw ClipArt dish
-      if(drawClipArt && drawMode == 1) p.image(img, clip_x, clip_y, clip_w, clip_h);      
+      if(drawClipArtAfterSweep && drawMode == 1) p.image(img, clip_x, clip_y, clip_w, clip_h);      
 
       if (Array.isArray(prev_pen_override)) {
         penState = prev_pen_override;
@@ -469,7 +501,7 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode==2? p.noFill() : p.fill(254);
+          drawMode<=1? p.fill(254) : p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -485,14 +517,16 @@
       }
 
       //draw ClipArt coconut || nose
-      if(drawClipArt && (drawMode == 0 || drawMode ==2)) p.image(img, clip_x, clip_y, clip_w, clip_h);
+      if(drawClipArtAfterSweep && (drawMode == 0 || drawMode ==2)){
+        p.image(img, clip_x, clip_y, clip_w, clip_h);
+      }
 
       //clip이후 나머지 stroke 그리기
       for (i = length_obj2; i < lines.length; i++){
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode==2? p.noFill() : p.fill(254);
+          drawMode==1? p.fill(254) : p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -539,7 +573,7 @@
       footer.style.height = footerHeight;
       screen_width = get_window_width(); //window.innerWidth
       screen_height = (get_window_height()-(headerHeight+footerHeight)); //window.innerHeight -110 
-      document.getElementById('title').innerHTML = get_window_width() +" "+ get_window_height(); //llllll
+      // document.getElementById('title').innerHTML = get_window_width() +" "+ get_window_height(); //llllll
       title = document.getElementById("title");
       title.style.width = screen_width * 0.4 + 'px';
       // ticker = document.getElementById("ticker");
@@ -666,6 +700,8 @@
     };
 
     p.setup = function() {
+      //Mode setting
+      setMode(1,!true);
       init(function() {
         console.log('ready.');
         // draw_random_example();
@@ -674,7 +710,8 @@
       canvas = p.createCanvas(screen_width, screen_height);
       p.frameRate(30);
       clear_screen();
-      last_time = +new Date()
+      last_time = +new Date();
+
     }
 
     function get_window_width() {
@@ -686,48 +723,164 @@
       // return p.windowHeight;
       return window.innerHeight;
     }
-
+    
     p.draw = function() {
-      //ticker show here
+      //ticker show here & silentMode setting init.; 
       if(task>=0 && task<taskText[drawMode].length){
-        set_ticker_text(taskText[drawMode][task]);
+        isTalkative? set_ticker_text(taskText[drawMode][task]) : set_ticker_text('SILENT AI');
         //gen 시작전 raw_lines의 인덱스 저장
         if(task == 5) length_obj1 = raw_lines.length;
         //vae 시작전 raw_lines의 인덱스 저장
         if(task == 7) length_obj2 = raw_lines.length;
-        
       }
-      if(task == 11 && !isTimeCntStart){
-        isTimeCntStart = true;
-        console.log('------settimeout start------');
-        mySetTime = setTimeout(function() {
-          console.log('------settimeout operate------');
-          task++; //task12
-          setTimeout(function() {
-            task++; //task13
-            button_cntr.style.display = 'inline-block';
-            button_no.style.display = 'inline-block';
-            button_yes.innerText = 'yes'; 
+      
+      //-------here for TalkativeMode------
+      if(isTalkative){
+        if(task == 11 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout operate------');
+            task++; //task12
+            setTimeout(function() {
+              task++; //task13
+              button_cntr.style.display = 'inline-block';
+              button_no.style.display = 'inline-block';
+              button_yes.innerText = 'yes'; 
+              checkWhiteSpace();
+              checkAreaByArray();
+              isTimeCntStart = false;   
+            }, 2000);
+          }, 5000);
+        }
+        if(task == 13 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout2 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout2 operate------');          
+            task++; //task14
+            setTimeout(function() {
+              task++; //task15
+              button_cntr.style.display = 'inline-block';
+              button_no.style.display = 'none';
+              button_yes.innerText = 'OK'; 
+            }, 2000);
+          }, 5000);
+        }
+      }
+      //-------here for silentMode-----
+      else{
+        if(task == 2 && !isTimeCntStart){ //나머지는 내가 그려볼게요
+          isTimeCntStart = true;
+          console.log('------settimeout_s1 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s1 operate------');
+            run_encode_strokes = false;
+            isModelDrawn = false; 
+          }, 3000);
+        }
+        if(task == 5 && !isTimeCntStart){ //또 다른 야자나무를 하나 더 그려볼게요!
+          isTimeCntStart = true;
+          console.log('------settimeout_s2 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s2 operate------');
+            findObjCoordinate(0, length_obj1);
+            toggleCover();
+            ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
+              console.log("changing")
+              model = new_model
+              model.set_pixel_factor(screen_scale_factor);
+              changing_model_lock = false;
+              set_title_text('draw a shape, any shape.');
+              model_loaded = true;
+              simModelChanged = true;
+              toggleCover();
+            }, true);
+          }, 3000);
+        }
+        if(task == 7 && !isTimeCntStart){ //야자나무와 어울리는 코코넛을 그려볼게요!
+          isTimeCntStart = true;
+          console.log('------settimeout_s3 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s3 operate------');
+            setClipArtLoc();
+            // pen twinkle 3 times
+            setTimeout(function(){
+              if(!isIntervalStart) myInterval = setInterval(function(){
+                console.log('interval');
+                isIntervalStart = true;
+                if(intCnt > 4){
+                  clearInterval(myInterval);
+                  isTimeCntStart = false;
+                  isIntervalStart = false;
+                  intCnt = 0;
+                }
+                var twinkle = document.getElementById('twinkle');
+                if(twinkle.style.display == 'none') twinkle.style.display = 'initial';
+                else twinkle.style.display = 'none'
+                intCnt++;
+              }, 500);  //0.5sec 주기로 반짝
+            }, 3000); // 3초후 실행 반짝이 실행
+          }, 1000); // 1초후 클립아트 그리기
+        }
+        if(task == 13 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout_s4 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s4 operate------');
             checkWhiteSpace();
             checkAreaByArray();
-          }, 2000);
-        }, 5000);
+            isTimeCntStart = false; 
+            task+=2; //task15 - toss to paintchainer
+          }, 5000); //5sec후 빈곳 알려줌
+        }
+        if(task == 15 && !isTimeCntStart){
+          isTimeCntStart = true;
+          console.log('------settimeout_s5 start------');
+          mySetTime = setTimeout(function() {
+            console.log('------settimeout_s5 operate------');
+            document.getElementById('twinkle').style.backgroundImage = 'url("imgsrc/Brushicon_red.png")';
+            // brush twinkle 3 times
+            if(!isIntervalStart) myInterval = setInterval(function(){
+                console.log('interval2');
+                isIntervalStart = true;
+                if(intCnt > 5){
+                  clearInterval(myInterval);
+                  isTimeCntStart = false;
+                  // p.saveCanvas 
+                  // p.saveCanvas(p.canvas,"canvasImage","png"); //save image
+                  
+                }
+                var twinkle = document.getElementById('twinkle');
+                if(twinkle.style.display == 'none') twinkle.style.display = 'initial';
+                else twinkle.style.display = 'none'
+                intCnt++;
+              }, 500);  //0.5sec 주기로 반짝
+          }, 5000); //5sec후 붓질 알려줌
+        }
       }
-      if(task==13 && !isTimeCntStart){
-        isTimeCntStart = true;
-        console.log('------settimeout2 start------');
-        mySetTime = setTimeout(function() {
-          console.log('------settimeout2 operate------');          
-          task++; //task14
-          setTimeout(function() {
-            task++; //task15
-            button_cntr.style.display = 'inline-block';
-            button_no.style.display = 'none';
-            button_yes.innerText = 'OK'; 
-          }, 2000);
-        }, 5000);
+      //클립아트 스윕
+      if(drawClipArt){
+        var frame = 5; //30이 적절
+        clear_screen();
+        if(drawMode == 1){ // for dish
+          p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
+          draw_example(strokes, start_x , start_y, line_color);
+          sy += img.height/frame; //30frame
+        }
+        else{
+          draw_example(strokes, start_x , start_y, line_color);
+          p.image(img, clip_x, (clip_y-clip_h)+clip_h/img.height*sy, clip_w, clip_h, 0, sy-img.height);
+          sy += img.height/frame; //30frame
+        }
+        if(sy>img.height){
+          drawClipArtAfterSweep = true;
+          drawClipArt = false;
+          clear_screen();
+          draw_example(strokes, start_x , start_y, line_color);
+        }
       }
-
+      //------public setting----------
       screen_width = get_window_width();
       screen_height = (get_window_height()-(headerHeight+footerHeight));
       //console.log(screen_width,screen_height)
@@ -816,7 +969,7 @@
           //
           if(task==1){
             task++;
-            button_cntr.style.display = 'inline-block';
+            if(isTalkative) button_cntr.style.display = 'inline-block';
           }
 
           //라인좌표를 curveVertex곡선으로 변환
@@ -880,9 +1033,9 @@
             //gen location control
             var w = max_xy[0] - min_xy[0];
             var h = max_xy[1] - min_xy[1];
-            if(drawMode == 0) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.15, strokes); //palm_tree;
-            else if(drawMode == 1) initSimilarStrokes(max_xy[0]+w*0.4, min_xy[1]+h*0, strokes); //strawberry;
-            else if(drawMode == 2) initSimilarStrokes(max_xy[0]+w*1, min_xy[1]+h*0, strokes); //eye;
+            if(drawMode == 0) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.3, strokes); //palm_tree;
+            else if(drawMode == 1) initSimilarStrokes(max_xy[0]+w*0.2, min_xy[1]+h*0.4, strokes); //strawberry;
+            else if(drawMode == 2) initSimilarStrokes(max_xy[0]+w*0.72, min_xy[1]+h*0, strokes); //eye;
             // initSimilarStrokes(300, 300, prevImageStrokes);
             isSimDrawn = true;
           }
@@ -925,6 +1078,10 @@
             isModelDrawn = true;
 
             task = 3;
+            if(!isTalkative){
+              task = 5;
+              isTimeCntStart = false;  
+            }
           } else {
 
             if (modelPen.prevDown === 1) {
@@ -1075,9 +1232,15 @@
               // simModelChanged = true;
               toggleCover();
               //task control
-              task++;
-              button_no.style.display = 'none';
-              button_yes.innerText = 'OK';
+              if(isTalkative){
+                task++;
+                button_no.style.display = 'none';
+                button_yes.innerText = 'OK';
+              }
+              else{
+                task = 7;
+                isTimeCntStart = false;  
+              }              
             }, true);  
           }
         }
@@ -1334,7 +1497,7 @@
       new_start_y = p.mouseY;
       var px = p.get(new_start_x, new_start_y);
       console.log(new_start_x, new_start_y, px);
-      document.getElementById('title').innerHTML = new_start_x+" "+ new_start_y; //llllllllllllll
+      // document.getElementById('title').innerHTML = new_start_x+" "+ new_start_y; //llllllllllllll
     }
     
     //아이콘클릭 효과
@@ -1397,6 +1560,44 @@
       min_xy[1] = Math.min.apply(0, temp_y);
     }
 
+    //clipArt 위치 설정
+    function setClipArtLoc(){
+      findObjCoordinate(0, length_obj2);
+      var w = max_xy[0] - min_xy[0];
+      var h = max_xy[1] - min_xy[1];
+      img = p.loadImage("imgsrc/"+clipImg[drawMode]+"1.png", function(img) {
+        for(var i=0; i<1; i++){ //coconut
+          if(drawMode == 0){
+            clip_h = h*0.25;
+            clip_w = clip_h*2;
+            clip_x = min_xy[0] + w*0.1;
+            clip_y = max_xy[1] - clip_h*0.5;
+          }
+          else if(drawMode == 1){ //dish
+            clip_w = w*1.5;
+            clip_h = clip_w*0.35;
+            clip_x = min_xy[0] - (clip_w - w)/2;
+            clip_y = min_xy[1] + h*0.7;                
+          }
+          else if(drawMode == 2){ //nose
+            clip_w = w*1/3;
+            clip_h = clip_w*1.33;
+            clip_x = min_xy[0] + clip_w*1;
+            clip_y = min_xy[1] + h*1.2;
+          }
+          // if(drawMode == 1){//only for dish
+          //   clear_screen();
+          //   p.image(img, clip_x, clip_y, clip_w, clip_h);
+          //   draw_example(strokes, start_x , start_y, line_color);
+          // }
+          // else p.image(img, clip_x, clip_y, clip_w, clip_h);
+        }
+        isTalkative? task++ : task=13;
+        drawClipArt = true;
+        //이미지 서서히 스와잎하게 효과넣기            
+      });
+    }
+
     //---------------------task event--------------------------
     //dom
     var button_cntr = document.getElementById('button_cntr');
@@ -1440,36 +1641,7 @@
         }
 
         else if(task==7){ //야자나무와 어울리는 코코넛을 그려볼게요!
-          drawClipArt = true;
-          findObjCoordinate(0, length_obj2);
-          var w = max_xy[0] - min_xy[0];
-          var h = max_xy[1] - min_xy[1];
-          img = p.loadImage("imgsrc/"+clipImg[drawMode]+"1.png", function(img) {
-            for(var i=0; i<1; i++){ //coconut
-              if(drawMode == 0){
-                clip_x = min_xy[0] + w*Math.random()*0.2;
-                clip_y = min_xy[1] + h*(0.6 + Math.random()*0.2);
-                clip_w = w*0.4;
-                clip_h = clip_w*0.5;
-              }
-              else if(drawMode == 1){ //dish
-                clip_w = w*1.5;
-                clip_h = clip_w*0.35;
-                clip_x = min_xy[0] - (clip_w - w)/2;
-                clip_y = min_xy[1] + h*0.8;                
-              }
-              else if(drawMode == 2){ //nose
-                clip_w = w*1/3;
-                clip_h = clip_w*1.33;
-                clip_x = min_xy[0] + clip_w*1;
-                clip_y = min_xy[1] + h*1.2;
-              }
-              p.image(img, clip_x, clip_y, clip_w, clip_h);
-            }
-            task++;
-            //이미지 서서히 스와잎하게 효과넣기            
-          });
-          
+          setClipArtLoc();
         }
 
         else if(task==8){
@@ -1479,10 +1651,11 @@
 
         else if(task==9){
           drawClipArt = true;
+          sy = 0;
           img = p.loadImage("imgsrc/"+clipImg[drawMode]+"2.png", function(img) {
-            p.image(img, clip_x, clip_y, clip_w, clip_h);
+            // p.image(img, clip_x, clip_y, clip_w, clip_h);
+            drawClipArtAfterSweep = false;
             task--; //task 8
-            //이미지 서서히 스와잎하게 효과넣기
             button_no.style.display = 'inline-block';
             button_yes.innerText = 'yes';   
           });
@@ -1490,15 +1663,17 @@
 
         else if(task==10){
           drawClipArt = true;
+          sy = 0;
           img = p.loadImage("imgsrc/"+clipImg[drawMode]+"3.png", function(img) {
-            p.image(img, clip_x, clip_y, clip_w, clip_h);
+            // p.image(img, clip_x, clip_y, clip_w, clip_h);
+            drawClipArtAfterSweep = false;
             task++; //task 11
             button_cntr.style.display = 'none';
           });
         }
 
         else if(task==13){ //여기 빈 공간이 큰 것 같아요. 뭘 좀 그리는게 어떨까요?
-          isTimeCntStart = false;   
+          // isTimeCntStart = false;   
           button_cntr.style.display = 'none';     
         }
 
@@ -1573,13 +1748,22 @@
   var raw_lines;
   var extStrokesLength;
   var drawClipArt = false;
+  var drawClipArtAfterSweep = false; //sweep효과후 draw_examlple에서 실행
   var img;
   var isFinalImg = false;
   var isTimeCntStart = false;
-  var mySetTime;
+  var mySetTime; //for setTimnout()
+  var myInterval; //for setInterval()
+  var isIntervalStart = false;
+  var intCnt = 0;
   var length_obj1, length_obj2; //raw_lines 로부터 야자수 오브젝트 인덱스 저장
   var min_xy = new Array(2);
   var max_xy = new Array(2); //야자수 오브젝트 위치저장
+  var modelNames;
+  var sy = 0;
+  var selection2; //(drawmode)
+  var selection3; //(istalkative)
+  var settings; 
 
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
@@ -1601,25 +1785,25 @@
   palVal.style.top = p_hgt/2+'px';
   palVal.style.padding = '20px 10px';
   palVal.style.zIndex = 0;
-
-  var colorArr = ['black', 'green', 'blue', 'pink', 'yellow', 'purple', 'cyan', 'orange', 'red'];
+  
   var curCol = 'black'; //현재 선택된컬러
-  colorArr.forEach(function(item, i){
-    var colVal = document.createElement('div');
-    palVal.appendChild(colVal);
-    colVal.setAttribute('class', 'colorVal'); // 공통 css적용
-    colVal.style.backgroundColor = item;
-    //컬러 선택시 변하는 부분 이벤트
-    colVal.addEventListener('click', function(e){
-      curCol = e.target.style.backgroundColor;
-      console.log(curCol);
-      pallet.style.backgroundColor = curCol;
-      if(palVal.style.display == 'none'){
-        palVal.style.display ='initial';
-      }
-      else palVal.style.display ='none';
-    });
-  });
+  // var colorArr = ['black', 'green', 'blue', 'pink', 'yellow', 'purple', 'cyan', 'orange', 'red'];
+  // colorArr.forEach(function(item, i){
+  //   var colVal = document.createElement('div');
+  //   palVal.appendChild(colVal);
+  //   colVal.setAttribute('class', 'colorVal'); // 공통 css적용
+  //   colVal.style.backgroundColor = item;
+  //   //컬러 선택시 변하는 부분 이벤트
+  //   colVal.addEventListener('click', function(e){
+  //     curCol = e.target.style.backgroundColor;
+      // console.log(curCol);
+      // pallet.style.backgroundColor = curCol;
+      // if(palVal.style.display == 'none'){
+        // palVal.style.display ='initial';
+      // }
+      // else palVal.style.display ='none';
+  //   });
+  // });
 
   // var p_cntr = document.getElementById('p_cntr');
   // pc버전 인터페이스
@@ -1661,6 +1845,38 @@
     }, 2000);
   }
 
+  function setMode(){
+    drawMode = 0;
+    isTalkative = true;
+    //------parsing from settings dom
+    // settings = document.getElementById("settings").childNodes[0].data.split(',');
+    // selection2 = settings[1].replace('\'','');
+    // selection2 = selection2.replace(/ /gi,'');
+    // selection2 = selection2.replace(/\'/gi,''); //drawmode
+    // selection3 = settings[2].replace(/\'/gi,'');
+    // selection3 = selection3.replace(']','');
+    // selection3 = selection3.replace(/ /gi,''); //istalkative
+    
+    // for jango sever
+    // if(selection2 == 'landscape') drawMode = 0
+    // else if(selection2 == 'portrait') drawMode = 2;
+    // else drawMode = 1;
+    // if(selection3 == 'istalkative') isTalkative = true;    
+    // else isTalkative = false;    
+    
+    //model
+    if(drawMode==0) modelNames = 'palm_tree';
+    else if(drawMode==1) modelNames = 'strawberry';
+    else if(drawMode==2) modelNames = 'eye';
+    //hashtag
+    if(isTalkative) document.getElementById('button_sel3').innerText = '#Talkative';
+    else document.getElementById('button_sel3').innerText = '#Silent';
+
+    if(drawMode == 0) document.getElementById('button_sel2').innerText = '#Landscape';
+    else if(drawMode == 1) document.getElementById('button_sel2').innerText = '#Still life';
+    else if(drawMode == 2) document.getElementById('button_sel2').innerText = '#Portrait';
+  }
+
   var screen_width, screen_height, temperature_slider;
   //for css setting
   document.body.onload = function(){
@@ -1668,6 +1884,23 @@
     for(var i=0; i<iconEle.length-1; i++){
       iconEle[i].style.backgroundColor = 'rgb(200,200,200)';
     }
+    document.getElementById('twinkle').addEventListener('click', function(e){
+      e.preventDefault();
+      return;
+    });
+    //color pallet
+    var tdArr = document.querySelectorAll('td');
+    tdArr.forEach(function(item){
+      item.addEventListener('click', function(e){
+        curCol = e.target.getAttribute('bgcolor');
+        console.log(curCol);
+        pallet.style.backgroundColor = curCol;
+        if(palVal.style.display == 'none'){
+          palVal.style.display ='initial';
+        }
+        else palVal.style.display ='none';
+      });
+    });
   }
 
 </script>
