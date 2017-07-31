@@ -221,7 +221,7 @@
       <div id ="button_no" class = "buttons">no</div>
       <div id ="button_yes" class = "buttons">yes</div>
     </div>
-    <div id ="ticker">그림을 그려주세요!</div>
+    <div id ="ticker">잠시만 기다려주세요!</div>
   </div>
   <div id='spaceAlert' style='display:none'></div>
   <div id='cover' style='display:none'></div>
@@ -526,7 +526,8 @@
         line = lines[i];
         if (line.length > 1) {
           pt = line[0];
-          drawMode==1? p.fill(254) : p.noFill();
+          // drawMode==1? p.fill(254) : p.noFill();
+          p.noFill();
           // p.stroke('black');
           p.stroke(colors[i]);
           p.strokeWeight(penWeights[i]);
@@ -565,8 +566,9 @@
         changing_model_lock = false;
         set_title_text('draw a shape, any shape.');
         model_loaded = true;
+        canvas = p.createCanvas(screen_width, screen_height);
+        isCreateCanvas = true;
       }, true);
-
       header = document.getElementById("header");
       header.style.height = headerHeight;
       footer = document.getElementById("footer");
@@ -701,13 +703,13 @@
 
     p.setup = function() {
       //Mode setting
-      setMode(1,!true);
+      setMode();
       init(function() {
         console.log('ready.');
         // draw_random_example();
       });
       restart();
-      canvas = p.createCanvas(screen_width, screen_height);
+      // canvas = p.createCanvas(screen_width, screen_height);
       p.frameRate(30);
       clear_screen();
       last_time = +new Date();
@@ -726,45 +728,44 @@
     
     p.draw = function() {
       //ticker show here & silentMode setting init.; 
-      if(task>=0 && task<taskText[drawMode].length){
+      if(task>=0 && task<taskText[drawMode].length && isCreateCanvas){
         isTalkative? set_ticker_text(taskText[drawMode][task]) : set_ticker_text('SILENT AI');
-        //gen 시작전 raw_lines의 인덱스 저장
-        if(task == 5) length_obj1 = raw_lines.length;
-        //vae 시작전 raw_lines의 인덱스 저장
+        //clipart 시작전 raw_lines의 인덱스 저장
         if(task == 7) length_obj2 = raw_lines.length;
       }
       
       //-------here for TalkativeMode------
       if(isTalkative){
-        if(task == 11 && !isTimeCntStart){
+        if(task == 11 && !isTimeCntStart && isSetTimeStart){
           isTimeCntStart = true;
           console.log('------settimeout start------');
           mySetTime = setTimeout(function() {
             console.log('------settimeout operate------');
-            task++; //task12
+            task = 12; //task12
             setTimeout(function() {
-              task++; //task13
-              button_cntr.style.display = 'inline-block';
-              button_no.style.display = 'inline-block';
-              button_yes.innerText = 'yes'; 
+              isSetTimeStart = false; //isSetTimeStart off
+              task = 13; //task13
+              button_cntr.style.display = 'none';
+              // button_no.style.display = 'none';
+              // button_yes.innerText = 'OK'; 
               checkWhiteSpace();
               checkAreaByArray();
               isTimeCntStart = false;   
-            }, 2000);
+            }, 4000);
           }, 5000);
         }
-        if(task == 13 && !isTimeCntStart){
+        if(task == 13 && !isTimeCntStart && isSetTimeStart){
           isTimeCntStart = true;
           console.log('------settimeout2 start------');
           mySetTime = setTimeout(function() {
             console.log('------settimeout2 operate------');          
-            task++; //task14
+            task = 14; //task14
             setTimeout(function() {
-              task++; //task15
+              task = 15; //task15
               button_cntr.style.display = 'inline-block';
               button_no.style.display = 'none';
               button_yes.innerText = 'OK'; 
-            }, 2000);
+            }, 4000);
           }, 5000);
         }
       }
@@ -780,6 +781,7 @@
           }, 3000);
         }
         if(task == 5 && !isTimeCntStart){ //또 다른 야자나무를 하나 더 그려볼게요!
+          length_obj1 = raw_lines.length;
           isTimeCntStart = true;
           console.log('------settimeout_s2 start------');
           mySetTime = setTimeout(function() {
@@ -823,18 +825,19 @@
             }, 3000); // 3초후 실행 반짝이 실행
           }, 1000); // 1초후 클립아트 그리기
         }
-        if(task == 13 && !isTimeCntStart){
+        if(task == 13 && !isTimeCntStart && isSetTimeStart){
           isTimeCntStart = true;
           console.log('------settimeout_s4 start------');
           mySetTime = setTimeout(function() {
             console.log('------settimeout_s4 operate------');
+            isSetTimeStart = false;
             checkWhiteSpace();
             checkAreaByArray();
             isTimeCntStart = false; 
             task+=2; //task15 - toss to paintchainer
           }, 5000); //5sec후 빈곳 알려줌
         }
-        if(task == 15 && !isTimeCntStart){
+        if(task == 15 && !isTimeCntStart && isSetTimeStart){
           isTimeCntStart = true;
           console.log('------settimeout_s5 start------');
           mySetTime = setTimeout(function() {
@@ -902,6 +905,7 @@
       random_text_background = false;
       // if (tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
       if (model_loaded && tracking.down && (tracking.x > 0) && (tracking.x < screen_width) && (tracking.y > 0) && tracking.y < screen_height) { // pen is touching the paper
+        if(task >= 11) isSetTimeStart = true;
         if (userPen.prevState == 1) {
           clear_screen();
           //내가 마우스 누르는동안 이전 오브젝트 그리기
@@ -968,8 +972,12 @@
         if (just_finished_line) {
           //
           if(task==1){
-            task++;
-            if(isTalkative) button_cntr.style.display = 'inline-block';
+            task = 2;
+            if(isTalkative) {
+              button_cntr.style.display = 'inline-block';
+              button_no.style.display = 'none';
+              button_yes.innerHTML = 'OK';
+            }
           }
 
           //라인좌표를 curveVertex곡선으로 변환
@@ -1077,10 +1085,16 @@
             restarting_model_lock_count = restarting_model_lock_frames;
             isModelDrawn = true;
 
-            task = 3;
-            if(!isTalkative){
+           
+            if(isTalkative){
+              task = 3;              
+              button_cntr.style.display = 'initial';
+              button_no.style.display = 'initial';
+              button_yes.innerHTML = 'yes';               
+            }
+            else{
               task = 5;
-              isTimeCntStart = false;  
+              isTimeCntStart = false; 
             }
           } else {
 
@@ -1234,6 +1248,7 @@
               //task control
               if(isTalkative){
                 task++;
+                button_cntr.style.display = 'initial';
                 button_no.style.display = 'none';
                 button_yes.innerText = 'OK';
               }
@@ -1331,15 +1346,17 @@
     function checkWhiteSpace(){
       //안보이는 외곽선 만들기
       p.stroke(254,254,254,255);
-      p.line(0,0,0,screen_height);
-      p.line(0,0,screen_width,0);
-      p.line(0,screen_height,screen_width,screen_height);
-      p.line(screen_width,0,screen_width,screen_height);
+      p.noFill();
+      p.rect(0,0,screen_width,screen_height);
+      // p.line(0,0,0,screen_height);
+      // p.line(0,0,screen_width,0);
+      // p.line(0,screen_height,screen_width,screen_height);
+      // p.line(screen_width,0,screen_width,screen_height);
       //특정 좌표에서 그림과 간섭없는 가장 큰 원 그리기
       var x=0, y=0; //중심좌표
       var x2, y2_p, y2_n //검색할 좌표
       var r=1 //거리, 원의 반지름
-      var del_r = 10; //몇픽셀 단위로 측정할지 
+      var del_r = 1; //몇픽셀 단위로 측정할지 
       var del_x = 1; //몇픽셀 단위로 x좌표 이동할지, 증가시 캔버스 외곽선 통가할 가능성있음
       var del_xy = 50; //몇픽셀 단위로 측정점 설정할지
       var isStopped = false;
@@ -1359,13 +1376,13 @@
         x = j*del_xy;
         y = i*del_xy;
 
-//        p.noStroke();
-//        p.fill(254,0,0,100); //alpha 0~255 (255 is exactly solid color)
-//        p.rect(x,y,5,5);
+        // p.noFill();
+        // p.stroke(254,0,0); //alpha 0~255 (255 is exactly solid color)
+        // p.rect(0,0,screen_width,screen_height);
         
         //최대거리용 원 셋업
         p.noFill();
-        p.stroke(0,0,255,100);
+        p.stroke(0,0,254,100);
         p.strokeWeight(1);
       
         for(r=0; r<search_limit; r+=del_r){ //계산부하 줄이려면 del_r 높임
@@ -1379,9 +1396,12 @@
             //캔버스 바깥범위는 탐색 안하도록. 최적화
             //p5 메소드 콜시에 시간오래 걸림. 중복반복문에선 안쓰는게 좋음 
             
-            if(x2<0 || x2>screen_width) continue;
-            else if(y2_p>screen_height) checkCoordinate(x2, y2_n);
-            else if(y2_n<0) checkCoordinate(x2, y2_p);
+            if(x2<0 || x2>screen_width || y+r>screen_height || y-r<0) continue;
+            // if(x2<0 || x2>screen_width) continue;
+            // else if(y2_p>screen_height) checkCoordinate(x2, y2_n);
+            // else if(y2_n<0) checkCoordinate(x2, y2_p);
+            else if(y2_p>screen_height) continue;
+            else if(y2_n<0) continue;
             else{
               checkCoordinate(x2, y2_p);
               checkCoordinate(x2, y2_n);
@@ -1393,13 +1413,14 @@
       
       res.sort(function(a,b){return a.r<b.r ? 1 : a.r>b.r ? -1 : 0;});
       for(var i=0; i<1; i++){
-//        p.noFill();
-//        p.stroke(0,0,255,100);
-//        p.ellipse(res[i].x, res[i].y, res[i].r*2, res[i].r*2);
-//        p.noStroke();
-//        p.fill(255,0,0,100); //alpha 0~255 (255 is exactly solid color)
-//        p.rect(res[i].x,res[i].y,5,5);
-//        console.log(res[i].i,res[i].j, res[i].r);
+        //작동시 파란 원 경계와 중심점 표시
+       p.noFill();
+       p.stroke(0,0,255,100);
+       p.ellipse(res[i].x, res[i].y, res[i].r*2, res[i].r*2);
+       p.noStroke();
+       p.fill(255,0,0,100); //alpha 0~255 (255 is exactly solid color)
+       p.rect(res[i].x,res[i].y,5,5);
+       console.log(res[i].x2,res[i].y2, res[i].r);
         makeSpaceAlert(res[i].x,res[i].y,res[i].r);
       }
       
@@ -1531,7 +1552,10 @@
       penWeights.pop();
       //raw_lines에는 절대좌표 기록, strokes에는 상대 좌표 거리 기록
       //sketchRNN은 strokes만 만들고 raw_line은 안만듦
-      if(raw_lines.length) raw_lines.pop();
+      if(raw_lines.length){
+        raw_lines.pop();
+        if(raw_lines.length == length_obj2) length_obj2--;
+      }
       while(true){
         if(strokes) strokes.pop();
         if(strokes.length==0 || strokes[strokes.length-1][3]==1) break;
@@ -1572,12 +1596,17 @@
             clip_w = clip_h*2;
             clip_x = min_xy[0] + w*0.1;
             clip_y = max_xy[1] - clip_h*0.5;
+            if(clip_y + clip_h*2/3>screen_height){
+              console.log('clip_h modified...');
+              clip_y = screen_height - clip_h*2/3; //화면 넘기기 보정
+            }
           }
           else if(drawMode == 1){ //dish
             clip_w = w*1.5;
             clip_h = clip_w*0.35;
             clip_x = min_xy[0] - (clip_w - w)/2;
             clip_y = min_xy[1] + h*0.7;                
+            if(clip_y + clip_h*2/3>screen_height) clip_y = screen_height - clip_h*2/3; //화면 넘기기 보정
           }
           else if(drawMode == 2){ //nose
             clip_w = w*1/3;
@@ -1613,13 +1642,18 @@
         if(task==2){ //나머지는 내가 그려볼게요
           run_encode_strokes = false;
           isModelDrawn = false;
+          button_cntr.style.display = 'none';
         }
 
         else if(task==3){ //헤헤, 맘에 드시나요?
+          button_no.style.display = 'none'
+          button_yes.innerHTML = 'OK'; 
           task = 5;
         }
 
         else if(task==5){ //또 다른 야자나무를 하나 더 그려볼게요!
+          length_obj1 = raw_lines.length;
+          button_cntr.style.display = 'none';
           findObjCoordinate(0, length_obj1);
           toggleCover();
           ModelImporter.change_model({}, modelNames, "vae", function(new_model) {
@@ -1635,13 +1669,16 @@
         }
 
         else if(task==6){ //헤헤, 맘에 드시나요?
+          
+          // button_no.style.display = 'inline-block';
+          button_yes.innerText = 'OK';
           task++;
-          button_no.style.display = 'inline-block';
-          button_yes.innerText = 'yes';
         }
 
         else if(task==7){ //야자나무와 어울리는 코코넛을 그려볼게요!
-          setClipArtLoc();
+          setClipArtLoc();          
+          button_no.style.display = 'inline-block'
+          button_yes.innerHTML = 'yes';
         }
 
         else if(task==8){
@@ -1706,6 +1743,7 @@
       }
 
       else if(task==5){
+        length_obj1 = raw_lines.length;
         task += 2; //task 7
       }
 
@@ -1761,9 +1799,11 @@
   var max_xy = new Array(2); //야자수 오브젝트 위치저장
   var modelNames;
   var sy = 0;
+  var isCreateCanvas = false;  
   var selection2; //(drawmode)
   var selection3; //(istalkative)
   var settings; 
+  var isSetTimeStart = false; // flag for task 11, 13 at talkative
 
   //---------------------팔레트 아이콘
   var pallet = document.getElementById('pallet'); //팔레트 아이콘 돔
@@ -1828,7 +1868,7 @@
     var hgt = r*mapVal*2;
     var circle = document.getElementById('spaceAlert');
     circle.style.left = x+'px';
-    circle.style.top = y+'px';
+    circle.style.top = y+document.getElementById('header').clientHeight+'px';
     circle.style.display = 'initial';
     circle.style.width = '0px';
     circle.style.height = '0px';
@@ -1838,7 +1878,7 @@
       circle.style.width = wdt+'px';
       circle.style.height = hgt+'px'; 
       circle.style.left = x-wdt/2+'px';
-      circle.style.top = y-hgt/2+'px';
+      circle.style.top = y-hgt/2+document.getElementById('header').clientHeight+'px';
     }, 10);
     setTimeout(function(){
       circle.style.display = 'none';
@@ -1846,7 +1886,7 @@
   }
 
   function setMode(){
-    drawMode = 0;
+    drawMode = 1;
     isTalkative = true;
     //------parsing from settings dom
     // settings = document.getElementById("settings").childNodes[0].data.split(',');
